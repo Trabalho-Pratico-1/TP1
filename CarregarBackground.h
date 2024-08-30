@@ -22,7 +22,7 @@ protected:
     float escalaY;
 
 public:
-    CarregarBackground() : ElementosTelaInicio("Johnny B. Goode.wav", "starterimage.jpg","horrendo.ttf"),
+    CarregarBackground() : ElementosTelaInicio("Johnny B. Goode.wav", "MarioBrosMenu.jpg","SuperMarioBros.2.ttf"),
           background(textura),
           escalaX(static_cast<float>(window.getSize().x) / background.getLocalBounds().width),
           escalaY(static_cast<float>(window.getSize().y) / background.getLocalBounds().height) {
@@ -33,14 +33,14 @@ public:
 
     	botaoJogar.botao.setSize(sf::Vector2f(200.f, 80.f));
     	botaoFechar.botao.setSize(sf::Vector2f(200.f, 80.f));
-    	botaoJogar.botao.setPosition((window.getSize().x / 4) * 3, window.getSize().y - ((window.getSize().y / 3) * 2));
-    	botaoFechar.botao.setPosition((window.getSize().x / 4) * 3, window.getSize().y - window.getSize().y / 3);
+    	botaoJogar.botao.setPosition((window.getSize().x / 4) , window.getSize().y - ((window.getSize().y / 3)));
+    	botaoFechar.botao.setPosition((window.getSize().x / 4) * 2 , window.getSize().y - window.getSize().y / 3);
     	botaoJogar.texto.setFont(fonte);
     	botaoFechar.texto.setFont(fonte);
     	botaoJogar.texto.setString("Jogar");
     	botaoFechar.texto.setString("Fechar");
-    	botaoJogar.texto.setCharacterSize(60);
-    	botaoFechar.texto.setCharacterSize(60);
+    	botaoJogar.texto.setCharacterSize(30);
+    	botaoFechar.texto.setCharacterSize(30);
     	botaoJogar.posicaoTexto();
     	botaoFechar.posicaoTexto();
 

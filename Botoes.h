@@ -34,9 +34,9 @@ public:
     }
     void trocarCorBotao(sf::RenderWindow& window){
         if (mousePassar(window)) {
-            configurarCor(sf::Color(102, 0, 0));
+            configurarCor(sf::Color(255, 0, 0));
         } else {
-            configurarCor(sf::Color(102, 102, 0));
+            configurarCor(sf::Color(0, 0, 0));
         }
     }
 };
