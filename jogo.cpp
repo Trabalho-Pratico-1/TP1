@@ -1,22 +1,45 @@
 #include <SFML/Graphics.hpp>
-//Personagem aparece na tela sem classes
-int jogo(int argc, char **argv) {
+class Mario{
+private:
 	sf::Texture texturePersongem;
 	sf::Sprite imagemPersonagem;
-
-	sf::Texture textureBackground;
-	sf::Sprite imagemBackground;
 	//int x, y, velocidadex, velocidadey;
 
-	textureBackground.loadFromFile("backgroundAtari.png");
-	imagemBackground.setTexture(textureBackground);
-	imagemBackground.setTextureRect(sf::IntRect(0,0,1080,720));
-	imagemBackground.scale(3, 3);
+public:
+	Mario(){
+		texturePersongem.loadFromFile("personagem.png");
+		imagemPersonagem.setTexture(texturePersongem);
+		imagemPersonagem.setPosition(200, 550);
+		imagemPersonagem.scale(0.15, 0.15);
+	}
 
-	texturePersongem.loadFromFile("personagem.png");
-	imagemPersonagem.setTexture(texturePersongem);
-	imagemPersonagem.setPosition(200, 550);
-	imagemPersonagem.scale(0.15, 0.15);
+	void desenharMario(sf::RenderWindow &window){
+		 window.draw(imagemPersonagem);
+	}
+};
+
+class Background{
+private:
+	sf::Texture textureBackground;
+	sf::Sprite imagemBackground;
+
+public:
+	Background(){
+		textureBackground.loadFromFile("backgroundAtari.png");
+		imagemBackground.setTexture(textureBackground);
+		imagemBackground.setTextureRect(sf::IntRect(0,0,1080,720));
+		imagemBackground.scale(3, 3);
+	}
+
+	void desenharBackground(sf::RenderWindow &window){
+		window.draw(imagemBackground);
+	}
+};
+
+int jogo(int argc, char **argv) {
+
+	Background background;
+	Mario mario;
 
 	sf::RenderWindow window(sf::VideoMode(1080, 720), "Jogo");
 
@@ -28,10 +51,9 @@ int jogo(int argc, char **argv) {
 	 }
 	 }
 
-	 window.draw(imagemBackground);
-	 window.draw(imagemPersonagem);
+	 background.desenharBackground(window);
+	 mario.desenharMario(window);
 	 window.display(); //Mostra na tela
 	 }
 	return 0;
 }
-
