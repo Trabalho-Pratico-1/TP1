@@ -115,19 +115,5 @@
 			<resource resourceType="PROJECT" workspacePath="/TP_1"/>
 		</configuration>
 	</storageModule>
-	<storageModule moduleId="scannerConfiguration">
-		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.1584050692;cdt.managedbuild.config.gnu.mingw.exe.debug.1584050692.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.debug.373556014;cdt.managedbuild.tool.gnu.cpp.compiler.input.580391790">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.435927204;cdt.managedbuild.config.gnu.mingw.exe.release.435927204.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.release.1878467007;cdt.managedbuild.tool.gnu.c.compiler.input.1841969949">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.release.435927204;cdt.managedbuild.config.gnu.mingw.exe.release.435927204.;cdt.managedbuild.tool.gnu.cpp.compiler.mingw.exe.release.1891154093;cdt.managedbuild.tool.gnu.cpp.compiler.input.2084870264">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-		<scannerConfigBuildInfo instanceId="cdt.managedbuild.config.gnu.mingw.exe.debug.1584050692;cdt.managedbuild.config.gnu.mingw.exe.debug.1584050692.;cdt.managedbuild.tool.gnu.c.compiler.mingw.exe.debug.208810725;cdt.managedbuild.tool.gnu.c.compiler.input.1023774418">
-			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
-		</scannerConfigBuildInfo>
-	</storageModule>
+	<storageModule moduleId="scannerConfiguration"/>
 </cproject>
