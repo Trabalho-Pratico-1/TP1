@@ -85,7 +85,7 @@ public:
 		}
 };
 
-int jogo(int argc, char **argv) {
+int main(int argc, char **argv) {
 
 	Background background;
 	Mario mario;
