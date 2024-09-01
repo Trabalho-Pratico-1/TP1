@@ -15,7 +15,7 @@ protected:
     int parteJogo;
     sf::RenderWindow window;
 public:
-    Janela() : window(sf::VideoMode(1080, 720), "Jogo", sf::Style::Close), parteJogo(0) {}
+    Janela() : window(sf::VideoMode(1080, 720), "Jogo", sf::Style::None), parteJogo(0) {}
 };
 
 #endif

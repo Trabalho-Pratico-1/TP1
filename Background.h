@@ -17,7 +17,7 @@ private:
 
 public:
 	Background(){
-		textureBackground.loadFromFile("backgroundAtari.png");
+		textureBackground.loadFromFile("MarioBrosMenu.jng");
 		imagemBackground.setTexture(textureBackground);
 		imagemBackground.setTextureRect(sf::IntRect(0,0,1080,720));
 		imagemBackground.scale(3, 3);
