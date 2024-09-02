@@ -23,7 +23,7 @@ private:
 public:
 	Mario(){
 		x = 200;
-		y = 550;
+		y = 450;
 		velocidadeX = 0;
 		velocidadeY = 0;
 		texturePersongem.loadFromFile("personagem.png");
@@ -33,7 +33,7 @@ public:
 	}
 
 	bool estaNoChao(){
-		if (y + imagemPersonagem.getGlobalBounds().height >= 655){
+		if (y + imagemPersonagem.getGlobalBounds().height >= 450){
 			return true;
 		}
 		else{

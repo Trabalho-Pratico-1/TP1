@@ -26,7 +26,7 @@ public:
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(0,1,20,15));
 		imagemInimigos.scale(5, 5);
-		imagemInimigos.setPosition(100, 420);
+		imagemInimigos.setPosition(100, 350);
 	}
 	void desenharTartaruga(sf::RenderWindow &window){
 		window.draw(imagemInimigos);
@@ -38,7 +38,7 @@ public:
 	Carangueijo(){
 		imagemInimigos.setTextureRect(sf::IntRect(0,20,20,16));
 		imagemInimigos.scale(5, 5);
-		imagemInimigos.setPosition(200, 130);
+		imagemInimigos.setPosition(200, 100);
 		}
 	void desenharCarangueijo(sf::RenderWindow &window){
 			window.draw(imagemInimigos);
@@ -51,7 +51,7 @@ public:
 	Vagalume(){
 		imagemInimigos.setTextureRect(sf::IntRect(0,76,20,15));
 		imagemInimigos.scale(5, 5);
-		imagemInimigos.setPosition(700, 90);
+		imagemInimigos.setPosition(700, 70);
 	}
 	void desenharVagalume(sf::RenderWindow &window){
 			window.draw(imagemInimigos);

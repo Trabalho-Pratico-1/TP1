@@ -63,6 +63,7 @@ public:
                 if (botaoJogar.mousePassar(window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     faseAtual = Fase::FASE1;
                     som.stop();
+                    break;
                 }
                 if (botaoFechar.mousePassar(window) && sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
                     window.close();
@@ -103,7 +104,7 @@ public:
     	Vagalume vagalume;
     	sf::Clock relogio;
     	float cronometro = 0.0f;
-    	bool menu;
+    	bool menu = false;
 
     	while (window.isOpen()){
     		sf::Event event;
@@ -139,7 +140,7 @@ public:
 			}
 
 			mario.gravidade();
-
+			window.clear();
 			background.desenharBackground(window);
 			mario.desenharMario(window);
 			tartaruga.desenharTartaruga(window);
