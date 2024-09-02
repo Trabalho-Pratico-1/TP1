@@ -6,7 +6,9 @@
 #include "Botoes.h"
 #include "Mario.h"
 #include "Background.h"
+#include "Inimigos.h"
 #include <SFML/Graphics.hpp>
+#include <SFML/System.hpp>
 #include <iostream>
 
 enum class Fase { MENU_INICIAL, FASE1};
@@ -96,10 +98,16 @@ public:
     void desenharFase1() {
     	Background background;
     	Mario mario;
+    	Tartaruga tartaruga;
+    	Carangueijo carangueijo;
+    	Vagalume vagalume;
+    	sf::Clock relogio;
+    	float cronometro = 0.0f;
     	bool menu;
 
     	while (window.isOpen()){
     		sf::Event event;
+
     		while (window.pollEvent(event)){
     			if (event.type == sf::Event::Closed){
     				window.close();
@@ -107,6 +115,20 @@ public:
     			if (event.key.code == sf::Keyboard::Escape){
     				menu = true;
     				break;
+    			}
+    			if (event.key.code == sf::Keyboard::Right){
+    				cronometro = relogio.getElapsedTime().asSeconds();
+    				if (cronometro >= 0.05f){
+    					mario.moverDireita();
+    					relogio.restart();
+    				}
+    			}
+    			if (event.key.code == sf::Keyboard::Left){
+    				cronometro = relogio.getElapsedTime().asSeconds();
+    			    if (cronometro >= 0.05f){
+    			    	mario.moverEsquerda();
+    			    	relogio.restart();
+    			    }
     			}
     		}
 
@@ -116,8 +138,13 @@ public:
 				break;
 			}
 
+			mario.gravidade();
+
 			background.desenharBackground(window);
 			mario.desenharMario(window);
+			tartaruga.desenharTartaruga(window);
+			carangueijo.desenharCarangueijo(window);
+			vagalume.desenharVagalume(window);
 			window.display();
 		}
    }

@@ -17,9 +17,9 @@ private:
 
 public:
 	Background(){
-		textureBackground.loadFromFile("MarioBrosMenu.jng");
+		textureBackground.loadFromFile("Atari - Mario Bros Atari 2600 - Backgrounds.png");
 		imagemBackground.setTexture(textureBackground);
-		imagemBackground.setTextureRect(sf::IntRect(0,0,1080,720));
+		imagemBackground.setTextureRect(sf::IntRect(1,1,320,210));
 		imagemBackground.scale(3, 3);
 	}
 
