@@ -23,7 +23,7 @@ private:
 public:
 	Mario(){
 		x = 200;
-		y = 450;
+		y = 500;
 		velocidadeX = 0;
 		velocidadeY = 0;
 		texturePersongem.loadFromFile("personagem.png");
@@ -42,7 +42,7 @@ public:
 	}
 
 	void gravidade(){
-		y-=velocidadeY * cronometro + 5* cronometro * cronometro;
+		y+=velocidadeY * cronometro + 5* cronometro * cronometro;
 		imagemPersonagem.setPosition(x, y);
 		if (estaNoChao()){
 			cronometro = 0.0f;

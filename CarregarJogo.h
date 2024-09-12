@@ -131,6 +131,7 @@ public:
     			    	relogio.restart();
     			    }
     			}
+
     		}
 
 			if(menu == true){
@@ -142,6 +143,7 @@ public:
 			mario.gravidade();
 			window.clear();
 			background.desenharBackground(window);
+			//plataforma1.desenharPlataforma(window);
 			mario.desenharMario(window);
 			tartaruga.desenharTartaruga(window);
 			carangueijo.desenharCarangueijo(window);
