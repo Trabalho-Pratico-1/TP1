@@ -1,0 +1,121 @@
+#ifndef INIMIGOS_H_
+#define INIMIGOS_H_
+#include "SFML/Graphics.hpp"
+#include "GameObject.h"
+#include "Player.h"
+// Classe derivada de GameObject para os inimigos
+class Inimigos: public GameObject {
+protected:
+	sf::Texture textureInimigos;
+	sf::Sprite imagemInimigos;
+	sf::Vector2f posicao;
+	sf::Vector2f velocity;
+	float gravity;
+	float speed;
+public:
+	Inimigos() :
+			velocity(0.0f, 0.0f), posicao(100.0f, 50.0f) {
+		gravity = 0.5f;
+		speed = 70.0f;
+	}
+	void carregarTexture() {
+		textureInimigos.loadFromFile("Inimigos-TestandoPNG.png");
+		imagemInimigos.setTexture(textureInimigos);
+	}
+
+	void update(float deltaTime,
+			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
+			float cellHeight) override {
+		velocity.x = 0.0f; // Inicializa a velocidade horizontal
+		// Atualiza a velocidade horizontal com base no tempo
+		velocity.x = speed * deltaTime;
+		// Aplica a gravidade
+		velocity.y += gravity;
+		// Move a forma do inimigo com base na velocidade
+		imagemInimigos.move(velocity);
+
+		sf::Vector2f posicao = imagemInimigos.getPosition(); // Obtém a posição atual dos inimigos
+		sf::FloatRect globalBounds = imagemInimigos.getGlobalBounds();
+		float width = globalBounds.width;        // Obtém a largura dos inimigos
+		float height = globalBounds.height;       // Obtém a altura dos inimigos
+
+		// Calcula as células da matriz de colisão que os inimigos ocupam
+		int cellXLeft = static_cast<int>(posicao.x / cellWidth);
+		int cellXRight = static_cast<int>((posicao.x + width) / cellWidth);
+		int cellYBottom = static_cast<int>((posicao.y + height) / cellHeight);
+
+		// Verifica colisões na parte inferior do inimigo
+		if (collisionMap[cellYBottom][cellXLeft] != -1
+				|| collisionMap[cellYBottom][cellXRight] != -1) {
+			imagemInimigos.setPosition(posicao.x,
+					cellYBottom * cellHeight - height); // Ajusta a posição do jogador para o chão
+			velocity.y = 0; // Reseta a velocidade vertical
+		}
+
+		// Transporte pelas bordas da janela
+		if (posicao.x < 0) {
+			imagemInimigos.setPosition(windowSize.x - width, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
+
+		} else if (posicao.x > 800) {
+			imagemInimigos.setPosition(0, posicao.y); // Teletransporta para a borda esquerda se sair pela direita
+
+		}
+
+		if (posicao.y < 0) {
+			imagemInimigos.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
+			velocity.y = 0; // Reseta a velocidade vertical
+
+		} else if (posicao.y > 400 and posicao.x>800) {
+			imagemInimigos.setPosition(posicao.x, 0); // Teletransporta para a borda superior se sair pela inferior
+
+		}
+
+	}
+
+	sf::Vector2f windowSize; // Tamanho da janela para transporte
+
+};
+
+class Tartaruga: public Inimigos {
+public:
+	Tartaruga() {
+		Inimigos();
+		//imagemInimigos.setTextureRect(sf::IntRect(0, 1, 20, 15));
+		imagemInimigos.scale(5, 5);
+	}
+
+	void desenharTartaruga(sf::RenderWindow &window) {
+		//moverTartaruga();
+		carregarTexture();
+		window.draw(imagemInimigos);
+	}
+};
+
+class Caranguejo: public Inimigos {
+public:
+	Caranguejo() {
+		Inimigos();
+		imagemInimigos.setTextureRect(sf::IntRect(0, 20, 20, 16));
+		imagemInimigos.scale(5, 5);
+	}
+	void desenharCaranguejo(sf::RenderWindow &window) {
+		carregarTexture();
+		window.draw(imagemInimigos);
+	}
+
+};
+
+class Vagalume: public Inimigos {
+public:
+	Vagalume() {
+		Inimigos();
+		imagemInimigos.setTextureRect(sf::IntRect(0, 76, 20, 15));
+		imagemInimigos.scale(5, 5);
+	}
+	void desenharVagalume(sf::RenderWindow &window) {
+		carregarTexture();
+		window.draw(imagemInimigos);
+	}
+};
+
+#endif /* INIMIGOS_H_ */
