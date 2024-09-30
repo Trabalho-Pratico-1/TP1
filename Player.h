@@ -24,14 +24,16 @@ private:
 	sf::Texture texturePersongem;
 	sf::Sprite sprite;
 public:
-
+	int vidas[5];
+	sf::Vector2f posicaoPlayer;
 	// Construtor da classe que inicializa o jogador com propriedades de movimento
 	Player() :
-			velocity(0.0f, 0.0f), isJumping(false) {
+			velocity(0.0f, 0.0f), isJumping(false), posicaoPlayer(100.0f, 400.0f) {
 		sf::Vector2f velocity(0.0f, 0.0f); //Define a velocidade
 		gravity = 0.5f;          // Define a gravidade
 		jumpForce = -12.5f;     // Define a força do salto
 		speed = 300.0f;         // Define a velocidade de movimento
+		vidas[5];
 	}
 	//Implementação do método getSprite para passar o sprite, já que ele está declarado como privado
 	sf::Sprite& getSprite() {
@@ -44,7 +46,8 @@ public:
 		} else {
 			texturePersongem.loadFromFile("personagem.png");
 			sprite.setTexture(texturePersongem);
-			sprite.scale(0.15, 0.15);
+			sprite.scale(0.14, 0.14);
+			sprite.setPosition(posicaoPlayer);
 		}
 
 	}

@@ -14,9 +14,9 @@ protected:
 	float speed;
 public:
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicaoInimigos(100.0f, 50.0f) {
+			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f) {
 		gravity = 0.5f;
-		speed = 70.0f;
+		speed = 50.0f;
 	}
 	void carregarTexture() {
 		textureInimigos.loadFromFile("Inimigos-TestandoPNG.png");
@@ -36,8 +36,8 @@ public:
 
 		posicao = imagemInimigos.getPosition(); // Obtém a posição atual do jogador
 		globalBounds = imagemInimigos.getGlobalBounds();
-		width = globalBounds.width;        // Obtém a largura do jogador
-		height = globalBounds.height;        // Obtém a altura do jogador
+		width = globalBounds.width;        // Obtém a largura dos inimigos
+		height = globalBounds.height;        // Obtém a altura dos inimigos
 
 		// Calcula as células da matriz de colisão que os inimigos ocupam
 		int cellXLeft = static_cast<int>(posicao.x / cellWidth);
@@ -48,7 +48,7 @@ public:
 		if (collisionMap[cellYBottom][cellXLeft] != -1
 				|| collisionMap[cellYBottom][cellXRight] != -1) {
 			imagemInimigos.setPosition(posicao.x,
-					cellYBottom * cellHeight - height); // Ajusta a posição do jogador para o chão
+					cellYBottom * cellHeight - height); // Ajusta a posição do inimigo para o chão
 			velocity.y = 0; // Reseta a velocidade vertical
 		}
 

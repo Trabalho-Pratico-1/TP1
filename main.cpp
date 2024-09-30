@@ -11,8 +11,6 @@
 /*
  *
  *Este código usa como base o código comitado no github no dia 18/09
- * Implementar os inimigos(antigo arquivos Inimigos.h)
- * -> Eles tem que aparecer em determinado período, ou seja, precisamos criar uma lógica para isso
  * -> A forma como eles morrem - isso envolve a colisão deles com o Mário e com a plataforma
  * -> Os básicos que temos que fazer são: a tartaruga, o caranguejo e o vagalume
  * -> Também tem uma bola de fogo que se movimenta na diagonal

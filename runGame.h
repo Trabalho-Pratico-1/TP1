@@ -44,19 +44,19 @@ std::vector<std::vector<int>> loadCollisionsFromCSV(
 }
 
 //Função que recebe o jogador e o inimigo e verifica se há colisão entre eles
-bool colisaoInimigoPlayer(Player player,Tartaruga tartaruga){
+bool colisaoInimigoPlayer(Player player, Inimigos tartaruga) {
 	bool colisao = false;
 
 	if (player.posicao.x + player.width > tartaruga.posicao.x
 			and tartaruga.posicao.x + tartaruga.width > player.posicao.x
-			and tartaruga.posicao.y + tartaruga.height> player.posicao.y
+			and tartaruga.posicao.y + tartaruga.height > player.posicao.y
 			and player.posicao.y + player.height > tartaruga.posicao.y) {
 		colisao = true;
-		std::cout<<"Colisão: "<<colisao<<std::endl;
+		//std::cout << "Colisão: " << colisao << std::endl;
 
 	} else {
 		colisao = false;
-		std::cout<<"Colisão: "<<colisao<<std::endl;
+		//std::cout << "Colisão: " << colisao << std::endl;
 	}
 	return colisao;
 }
@@ -121,11 +121,20 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//Desenhar inimigos
 		tartaruga.desenharTartaruga(window);
 		//vagalume.desenharVagalume(window);
-
-		colisaoInimigoPlayer(player, tartaruga);
-
-		window.display(); // Exibe o conteúdo renderizado na janela
-	}
+		/*for (int i = 4; i >= 0; i--) {
+			player.vidas[i] = i;
+		}
+			if (colisaoInimigoPlayer(player, tartaruga) == true) {
+				player.vidas--;
+			}
+			std::cout<<"Vidas:"<<player.vidas<<std::endl;
+		if (player.vidas == 0) {
+			std::cout << "GAME OVER" << std::endl;
+			window.close(); // Fecha a janela se o evento de fechamento for recebido
+		}
+		*/
+	window.display(); // Exibe o conteúdo renderizado na janela
+}
 }
 
 #endif /* RUNGAME_H_ */
