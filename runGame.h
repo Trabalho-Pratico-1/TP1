@@ -43,6 +43,23 @@ std::vector<std::vector<int>> loadCollisionsFromCSV(
 	return collisionMap; // Retorna o mapa de colisão
 }
 
+//Função que recebe o jogador e o inimigo e verifica se há colisão entre eles
+bool colisaoInimigoPlayer(Player player,Tartaruga tartaruga){
+	bool colisao = false;
+
+	if (player.posicao.x + player.width > tartaruga.posicao.x
+			and tartaruga.posicao.x + tartaruga.width > player.posicao.x
+			and tartaruga.posicao.y + tartaruga.height> player.posicao.y
+			and player.posicao.y + player.height > tartaruga.posicao.y) {
+		colisao = true;
+		std::cout<<"Colisão: "<<colisao<<std::endl;
+
+	} else {
+		colisao = false;
+		std::cout<<"Colisão: "<<colisao<<std::endl;
+	}
+	return colisao;
+}
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -104,6 +121,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//Desenhar inimigos
 		tartaruga.desenharTartaruga(window);
 		//vagalume.desenharVagalume(window);
+
+		colisaoInimigoPlayer(player, tartaruga);
 
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}

@@ -75,23 +75,23 @@ public:
 		// Move a forma do jogador com base na velocidade
 		sprite.move(velocity);
 
-		sf::Vector2f pos = sprite.getPosition(); // Obtém a posição atual do jogador
-		sf::FloatRect globalBounds = sprite.getGlobalBounds();
-		float width = globalBounds.width;        // Obtém a largura do jogador
-		float height = globalBounds.height;        // Obtém a altura do jogador
+		posicao = sprite.getPosition(); // Obtém a posição atual do jogador
+		globalBounds = sprite.getGlobalBounds();
+		width = globalBounds.width;        // Obtém a largura do jogador
+		height = globalBounds.height;        // Obtém a altura do jogador
 
 		// Calcula as células da matriz de colisão que o jogador ocupa
-		int cellXLeft = static_cast<int>(pos.x / cellWidth);
-		int cellXRight = static_cast<int>((pos.x + width) / cellWidth);
-		int cellYTop = static_cast<int>(pos.y / cellHeight);
-		int cellYBottom = static_cast<int>((pos.y + height) / cellHeight);
+		int cellXLeft = static_cast<int>(posicao.x / cellWidth);
+		int cellXRight = static_cast<int>((posicao.x + width) / cellWidth);
+		int cellYTop = static_cast<int>(posicao.y / cellHeight);
+		int cellYBottom = static_cast<int>((posicao.y + height) / cellHeight);
 
 		bool onGround = false; // Flag para verificar se o jogador está no chão
 
 		// Verifica colisões na parte inferior do jogador
 		if (collisionMap[cellYBottom][cellXLeft] != -1
 				|| collisionMap[cellYBottom][cellXRight] != -1) {
-			sprite.setPosition(pos.x, cellYBottom * cellHeight - height); // Ajusta a posição do jogador para o chão
+			sprite.setPosition(posicao.x, cellYBottom * cellHeight - height); // Ajusta a posição do jogador para o chão
 			velocity.y = 0; // Reseta a velocidade vertical
 			isJumping = false; // Permite que o jogador pule novamente
 			onGround = true;
@@ -101,27 +101,27 @@ public:
 		if (!onGround) {
 			if (collisionMap[cellYTop][cellXLeft] != -1
 					|| collisionMap[cellYTop][cellXRight] != -1) {
-				sprite.setPosition(pos.x, (cellYTop + 1) * cellHeight); // Ajusta a posição do jogador para o teto
+				sprite.setPosition(posicao.x, (cellYTop + 1) * cellHeight); // Ajusta a posição do jogador para o teto
 				velocity.y = 0; // Reseta a velocidade vertical
 				isJumping = false; // Permite que o jogador pule novamente
 			}
 		}
 
 		// Transporte pelas bordas da janela
-		if (pos.x < 0) {
-			sprite.setPosition(windowSize.x - width, pos.y); // Teletransporta para a borda direita se sair pela esquerda
+		if (posicao.x < 0) {
+			sprite.setPosition(windowSize.x - width, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
 
-		} else if (pos.x > windowSize.x) {
-			sprite.setPosition(0, pos.y); // Teletransporta para a borda esquerda se sair pela direita
+		} else if (posicao.x > windowSize.x) {
+			sprite.setPosition(0, posicao.y); // Teletransporta para a borda esquerda se sair pela direita
 
 		}
 
-		if (pos.y < 0) {
-			sprite.setPosition(pos.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
+		if (posicao.y < 0) {
+			sprite.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
 			velocity.y = 0; // Reseta a velocidade vertical
 
-		} else if (pos.y > windowSize.y) {
-			sprite.setPosition(pos.x, 0); // Teletransporta para a borda superior se sair pela inferior
+		} else if (posicao.y > windowSize.y) {
+			sprite.setPosition(posicao.x, 0); // Teletransporta para a borda superior se sair pela inferior
 
 		}
 

@@ -20,12 +20,15 @@
 // Classe base para objetos do jogo
 class GameObject {
 public:
+	sf::Vector2f posicao;
+		sf::FloatRect globalBounds;
+		float width;
+		float height;
 	// Método virtual puro que deve ser implementado por classes derivadas
 	virtual void update(float deltaTime,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) = 0;
 
 };
-
 
 #endif /* GAMEOBJECT_H_ */

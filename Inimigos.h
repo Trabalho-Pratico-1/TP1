@@ -8,13 +8,13 @@ class Inimigos: public GameObject {
 protected:
 	sf::Texture textureInimigos;
 	sf::Sprite imagemInimigos;
-	sf::Vector2f posicao;
+	sf::Vector2f posicaoInimigos;
 	sf::Vector2f velocity;
 	float gravity;
 	float speed;
 public:
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicao(100.0f, 50.0f) {
+			velocity(0.0f, 0.0f), posicaoInimigos(100.0f, 50.0f) {
 		gravity = 0.5f;
 		speed = 70.0f;
 	}
@@ -34,10 +34,10 @@ public:
 		// Move a forma do inimigo com base na velocidade
 		imagemInimigos.move(velocity);
 
-		sf::Vector2f posicao = imagemInimigos.getPosition(); // Obtém a posição atual dos inimigos
-		sf::FloatRect globalBounds = imagemInimigos.getGlobalBounds();
-		float width = globalBounds.width;        // Obtém a largura dos inimigos
-		float height = globalBounds.height;       // Obtém a altura dos inimigos
+		posicao = imagemInimigos.getPosition(); // Obtém a posição atual do jogador
+		globalBounds = imagemInimigos.getGlobalBounds();
+		width = globalBounds.width;        // Obtém a largura do jogador
+		height = globalBounds.height;        // Obtém a altura do jogador
 
 		// Calcula as células da matriz de colisão que os inimigos ocupam
 		int cellXLeft = static_cast<int>(posicao.x / cellWidth);
@@ -65,7 +65,7 @@ public:
 			imagemInimigos.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
 			velocity.y = 0; // Reseta a velocidade vertical
 
-		} else if (posicao.y > 400 and posicao.x>800) {
+		} else if (posicao.y > 400 and posicao.x > 800) {
 			imagemInimigos.setPosition(posicao.x, 0); // Teletransporta para a borda superior se sair pela inferior
 
 		}
