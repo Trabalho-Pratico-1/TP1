@@ -52,14 +52,28 @@ bool colisaoInimigoPlayer(Player player, Inimigos tartaruga) {
 			and tartaruga.posicao.y + tartaruga.height > player.posicao.y
 			and player.posicao.y + player.height > tartaruga.posicao.y) {
 		colisao = true;
-		//std::cout << "Colisão: " << colisao << std::endl;
-
 	} else {
 		colisao = false;
-		//std::cout << "Colisão: " << colisao << std::endl;
 	}
 	return colisao;
 }
+
+bool colisaoPlayerPlataformaInimigo(Player player, Inimigos tartaruga) {
+	bool aconteceuColisao;
+	if (player.pulo == true) {
+		if (tartaruga.onGround == true) {
+			if (tartaruga.posicao.x >= player.posicao.x
+					and player.posicao.x <= tartaruga.posicao.x) {
+				aconteceuColisao = true;
+				std::cout << "Player colidiu com Inimigo" << std::endl;
+			}
+		}
+	} else {
+		aconteceuColisao = false;
+	}
+	return aconteceuColisao;
+}
+
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -89,8 +103,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	player.carregarTexture();
 	player.windowSize = sf::Vector2f(window.getSize()); // Define o tamanho da janela para o jogador
 
-	Tartaruga tartaruga; //Cria o inimigo tartaruga
-//	Vagalume vagalume;
+	//Tartaruga tartaruga; //Cria o inimigo tartaruga
+	Vagalume vagalume;
 
 	sf::Clock clock;  // Relógio para medir o tempo delta
 
@@ -108,8 +122,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Atualizar o personagem
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		//Aturalizar inimigos
-		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		//tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		vagalume.pular();
 
 		window.clear(); // Limpa a janela
 
@@ -119,22 +134,24 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 		//Desenhar inimigos
-		tartaruga.desenharTartaruga(window);
-		//vagalume.desenharVagalume(window);
+		//tartaruga.desenharTartaruga(window);
+		vagalume.desenharVagalume(window);
 		/*for (int i = 4; i >= 0; i--) {
-			player.vidas[i] = i;
-		}
-			if (colisaoInimigoPlayer(player, tartaruga) == true) {
-				player.vidas--;
-			}
-			std::cout<<"Vidas:"<<player.vidas<<std::endl;
-		if (player.vidas == 0) {
-			std::cout << "GAME OVER" << std::endl;
-			window.close(); // Fecha a janela se o evento de fechamento for recebido
-		}
-		*/
-	window.display(); // Exibe o conteúdo renderizado na janela
-}
+		 player.vidas[i] = i;
+		 }
+		 if (colisaoInimigoPlayer(player, tartaruga) == true) {
+		 player.vidas--;
+		 }
+		 std::cout<<"Vidas:"<<player.vidas<<std::endl;
+		 if (player.vidas == 0) {
+		 std::cout << "GAME OVER" << std::endl;
+		 window.close(); // Fecha a janela se o evento de fechamento for recebido
+		 }
+		 */
+		//colisaoPlayerPlataformaInimigo(player, tartaruga);
+		//std::cout<<"Pulo: "<<player.pulo<<std::endl;
+		window.display(); // Exibe o conteúdo renderizado na janela
+	}
 }
 
 #endif /* RUNGAME_H_ */

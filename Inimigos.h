@@ -13,8 +13,9 @@ protected:
 	float gravity;
 	float speed;
 public:
+	bool onGround;
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f) {
+			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false) {
 		gravity = 0.5f;
 		speed = 50.0f;
 	}
@@ -50,7 +51,11 @@ public:
 			imagemInimigos.setPosition(posicao.x,
 					cellYBottom * cellHeight - height); // Ajusta a posição do inimigo para o chão
 			velocity.y = 0; // Reseta a velocidade vertical
+			onGround = true;
 		}
+
+//		std::cout << "OnGround: " << onGround << std::endl;
+//		std::cout<<"Posição X Inimigo: "<<posicao.x<<std::endl;
 
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {
@@ -58,7 +63,6 @@ public:
 
 		} else if (posicao.x > 800) {
 			imagemInimigos.setPosition(0, posicao.y); // Teletransporta para a borda esquerda se sair pela direita
-
 		}
 
 		if (posicao.y < 0) {
@@ -109,13 +113,22 @@ class Vagalume: public Inimigos {
 public:
 	Vagalume() {
 		Inimigos();
-		imagemInimigos.setTextureRect(sf::IntRect(0, 76, 20, 15));
+		//imagemInimigos.setTextureRect(sf::IntRect(0, 76, 20, 15));
 		imagemInimigos.scale(5, 5);
 	}
 	void desenharVagalume(sf::RenderWindow &window) {
 		carregarTexture();
 		window.draw(imagemInimigos);
 	}
+	void pular() {
+		if (onGround == true) {
+			velocity.y = -3.0f;
+			onGround = false;
+		}else{
+			velocity.y += gravity;
+		}
+	}
+
 };
 
 #endif /* INIMIGOS_H_ */

@@ -26,9 +26,11 @@ private:
 public:
 	int vidas[5];
 	sf::Vector2f posicaoPlayer;
+	bool pulo;
 	// Construtor da classe que inicializa o jogador com propriedades de movimento
 	Player() :
-			velocity(0.0f, 0.0f), isJumping(false), posicaoPlayer(100.0f, 400.0f) {
+			velocity(0.0f, 0.0f), isJumping(false), posicaoPlayer(100.0f,
+					400.0f), pulo(false) {
 		sf::Vector2f velocity(0.0f, 0.0f); //Define a velocidade
 		gravity = 0.5f;          // Define a gravidade
 		jumpForce = -12.5f;     // Define a força do salto
@@ -100,6 +102,11 @@ public:
 			onGround = true;
 		}
 
+		if (collisionMap[cellYBottom][cellXLeft] == 25
+				|| collisionMap[cellYBottom][cellXRight] == 25) {
+
+		}
+
 		// Verifica se o jogador está em colisão com o teto se não estiver no chão
 		if (!onGround) {
 			if (collisionMap[cellYTop][cellXLeft] != -1
@@ -107,8 +114,17 @@ public:
 				sprite.setPosition(posicao.x, (cellYTop + 1) * cellHeight); // Ajusta a posição do jogador para o teto
 				velocity.y = 0; // Reseta a velocidade vertical
 				isJumping = false; // Permite que o jogador pule novamente
+				//pulo = true;
 			}
 		}
+
+		if (isJumping == false and onGround == false) {
+			pulo = true;
+		} else {
+			pulo = false;
+		}
+
+//		std::cout<<"Posição X Player: "<<posicao.x<<std::endl;
 
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {
