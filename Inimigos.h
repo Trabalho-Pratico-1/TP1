@@ -67,10 +67,8 @@ public:
 
 		if (posicao.y < 0) {
 			imagemInimigos.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
-			velocity.y = 0; // Reseta a velocidade vertical
-
 		} else if (posicao.y > 400 and posicao.x > 800) {
-			imagemInimigos.setPosition(posicao.x, 0); // Teletransporta para a borda superior se sair pela inferior
+			imagemInimigos.setPosition(posicao.x, 2.0f); // Teletransporta para a borda superior se sair pela inferior
 
 		}
 
@@ -121,11 +119,9 @@ public:
 		window.draw(imagemInimigos);
 	}
 	void pular() {
-		if (onGround == true) {
+		if (onGround == true and posicao.x < 720) {
 			velocity.y = -3.0f;
 			onGround = false;
-		}else{
-			velocity.y += gravity;
 		}
 	}
 

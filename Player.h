@@ -114,9 +114,10 @@ public:
 				sprite.setPosition(posicao.x, (cellYTop + 1) * cellHeight); // Ajusta a posição do jogador para o teto
 				velocity.y = 0; // Reseta a velocidade vertical
 				isJumping = false; // Permite que o jogador pule novamente
-				//pulo = true;
 			}
 		}
+
+
 
 		if (isJumping == false and onGround == false) {
 			pulo = true;
@@ -137,7 +138,6 @@ public:
 
 		if (posicao.y < 0) {
 			sprite.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
-			velocity.y = 0; // Reseta a velocidade vertical
 
 		} else if (posicao.y > windowSize.y) {
 			sprite.setPosition(posicao.x, 0); // Teletransporta para a borda superior se sair pela inferior

@@ -123,8 +123,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		//Aturalizar inimigos
 		//tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		vagalume.pular();
+		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
