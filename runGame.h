@@ -103,9 +103,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	player.carregarTexture();
 	player.windowSize = sf::Vector2f(window.getSize()); // Define o tamanho da janela para o jogador
 
+	Fogo fogo;
 	//Tartaruga tartaruga; //Cria o inimigo tartaruga
-	Vagalume vagalume;
-
+	//Vagalume vagalume;
 	sf::Clock clock;  // Relógio para medir o tempo delta
 
 // Loop principal do jogo
@@ -121,10 +121,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		// Atualizar o personagem
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		//Aturalizar inimigos
+		fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		//Atualizar inimigos
 		//tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		vagalume.pular();
-		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		//vagalume.pular();
+		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
@@ -133,9 +134,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		// Desenhar o personagem
 		window.draw(player.getSprite());
+
+		fogo.desenharFogo(window);
 		//Desenhar inimigos
 		//tartaruga.desenharTartaruga(window);
-		vagalume.desenharVagalume(window);
+		//vagalume.desenharVagalume(window);
 		/*for (int i = 4; i >= 0; i--) {
 		 player.vidas[i] = i;
 		 }
