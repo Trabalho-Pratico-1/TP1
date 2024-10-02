@@ -59,22 +59,6 @@ bool colisaoInimigoPlayer(Player player, Inimigos tartaruga) {
 	return colisao;
 }
 
-bool colisaoPlayerPlataformaInimigo(Player player, Inimigos tartaruga) {
-	bool aconteceuColisao;
-	if (player.pulo == true) {
-		if (tartaruga.onGround == true) {
-			if (tartaruga.posicao.x >= player.posicao.x
-					and player.posicao.x <= tartaruga.posicao.x) {
-				aconteceuColisao = true;
-				std::cout << "Player colidiu com Inimigo" << std::endl;
-			}
-		}
-	} else {
-		aconteceuColisao = false;
-	}
-	return aconteceuColisao;
-}
-
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -99,7 +83,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			window.getSize().x / static_cast<float>(mapTexture.getSize().x),
 			window.getSize().y / static_cast<float>(mapTexture.getSize().y)); // Ajusta a escala do sprite para preencher a janela
 
-	Plataformas plataforma;
+	Plataformas plataformas;
 // Criar o personagem
 	Player player; // Cria o jogador
 	player.carregarTexture();
@@ -129,7 +113,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//vagalume.pular();
 		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
-		plataforma.updatePlataforma(player, tartaruga, deltaTime, collisionMap, cellWidth, cellHeight);
+		plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga, deltaTime, collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
