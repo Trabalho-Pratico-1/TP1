@@ -35,7 +35,7 @@ public:
 		gravity = 0.5f;          // Define a gravidade
 		jumpForce = -12.5f;     // Define a força do salto
 		speed = 300.0f;         // Define a velocidade de movimento
-		vidas[5];
+		//vidas[5];
 	}
 	//Implementação do método getSprite para passar o sprite, já que ele está declarado como privado
 	sf::Sprite& getSprite() {
@@ -102,11 +102,6 @@ public:
 			onGround = true;
 		}
 
-		if (collisionMap[cellYBottom][cellXLeft] == 25
-				|| collisionMap[cellYBottom][cellXRight] == 25) {
-
-		}
-
 		// Verifica se o jogador está em colisão com o teto se não estiver no chão
 		if (!onGround) {
 			if (collisionMap[cellYTop][cellXLeft] != -1
@@ -116,8 +111,6 @@ public:
 				isJumping = false; // Permite que o jogador pule novamente
 			}
 		}
-
-
 
 		if (isJumping == false and onGround == false) {
 			pulo = true;

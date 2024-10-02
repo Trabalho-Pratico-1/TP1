@@ -18,6 +18,7 @@
 #include <stdexcept>            // Inclui a biblioteca para manipulação de exceções padrão
 #include "Player.h"				//Inclui o arquivo que guarda os atributos e métodos do jogador
 #include "Inimigos.h"			//Inclui o arquivo que guarda os atributos e métodos dos inimigos
+#include "Plataformas.h"
 // Função para carregar o mapa de colisão a partir de um arquivo CSV
 std::vector<std::vector<int>> loadCollisionsFromCSV(
 		const std::string &filename) {
@@ -98,13 +99,14 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			window.getSize().x / static_cast<float>(mapTexture.getSize().x),
 			window.getSize().y / static_cast<float>(mapTexture.getSize().y)); // Ajusta a escala do sprite para preencher a janela
 
+	Plataformas plataforma;
 // Criar o personagem
 	Player player; // Cria o jogador
 	player.carregarTexture();
 	player.windowSize = sf::Vector2f(window.getSize()); // Define o tamanho da janela para o jogador
 
-	Fogo fogo;
-	//Tartaruga tartaruga; //Cria o inimigo tartaruga
+	//Fogo fogo;
+	Tartaruga tartaruga; //Cria o inimigo tartaruga
 	//Vagalume vagalume;
 	sf::Clock clock;  // Relógio para medir o tempo delta
 
@@ -121,11 +123,13 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		// Atualizar o personagem
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		//fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		//Atualizar inimigos
-		//tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		//vagalume.pular();
 		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+
+		plataforma.updatePlataforma(player, tartaruga, deltaTime, collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
@@ -135,24 +139,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 
-		fogo.desenharFogo(window);
+		//fogo.desenharFogo(window);
 		//Desenhar inimigos
-		//tartaruga.desenharTartaruga(window);
+		tartaruga.desenharTartaruga(window);
 		//vagalume.desenharVagalume(window);
-		/*for (int i = 4; i >= 0; i--) {
-		 player.vidas[i] = i;
-		 }
-		 if (colisaoInimigoPlayer(player, tartaruga) == true) {
-		 player.vidas--;
-		 }
-		 std::cout<<"Vidas:"<<player.vidas<<std::endl;
-		 if (player.vidas == 0) {
-		 std::cout << "GAME OVER" << std::endl;
-		 window.close(); // Fecha a janela se o evento de fechamento for recebido
-		 }
-		 */
-		//colisaoPlayerPlataformaInimigo(player, tartaruga);
-		//std::cout<<"Pulo: "<<player.pulo<<std::endl;
+
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }
