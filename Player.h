@@ -23,19 +23,19 @@ class Player: public GameObject {
 private:
 	sf::Texture texturePersongem;
 	sf::Sprite sprite;
-public:
-	int vidas[5];
 	sf::Vector2f posicaoPlayer;
+public:
+	int vidas;
 	bool pulo;
+	int pontos = 0;
 	// Construtor da classe que inicializa o jogador com propriedades de movimento
 	Player() :
-			velocity(0.0f, 0.0f), isJumping(false), posicaoPlayer(100.0f,
-					400.0f), pulo(false) {
+			velocity(0.0f, 0.0f), isJumping(false), pulo(false), posicaoPlayer(0.0f, 400.0f) {
 		sf::Vector2f velocity(0.0f, 0.0f); //Define a velocidade
 		gravity = 0.5f;          // Define a gravidade
 		jumpForce = -12.5f;     // Define a força do salto
-		speed = 300.0f;         // Define a velocidade de movimento
-		//vidas[5];
+		speed = 200.0f;         // Define a velocidade de movimento
+		vidas = 5;
 	}
 	//Implementação do método getSprite para passar o sprite, já que ele está declarado como privado
 	sf::Sprite& getSprite() {
@@ -48,7 +48,7 @@ public:
 		} else {
 			texturePersongem.loadFromFile("personagem.png");
 			sprite.setTexture(texturePersongem);
-			sprite.scale(0.14, 0.14);
+			sprite.scale(0.12, 0.12);
 			sprite.setPosition(posicaoPlayer);
 		}
 
@@ -117,9 +117,6 @@ public:
 		} else {
 			pulo = false;
 		}
-
-//		std::cout<<"Posição X Player: "<<posicao.x<<std::endl;
-
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {
 			sprite.setPosition(windowSize.x - width, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
@@ -137,6 +134,10 @@ public:
 
 		}
 
+	}
+
+	void morreRenasce(Player player) {
+		player.sprite.setPosition(0.0f, 400.0f);
 	}
 
 	sf::Vector2f windowSize; // Tamanho da janela para transporte

@@ -19,7 +19,7 @@
 using namespace std;
 class Plataformas {
 public:
-	void colisaoPlayerPlataformaInimigo(Player player, Inimigos tartaruga, float deltaTime,
+	bool colisaoPlayerPlataformaInimigo(Player player, Inimigos tartaruga,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) {
 		bool aconteceuColisao = false;
@@ -104,6 +104,7 @@ public:
 					}
 				}
 			}
+		return aconteceuColisao;
 	}
 };
 

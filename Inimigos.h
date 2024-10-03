@@ -14,8 +14,9 @@ protected:
 	float speed;
 public:
 	bool onGround;
+	bool vivo;
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false) {
+			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(true) {
 		gravity = 0.5f;
 		speed = 50.0f;
 	}
@@ -74,6 +75,18 @@ public:
 
 	}
 
+	void morto(){
+			speed = 0.0f;
+			vivo = false;
+	}
+	void renascer(){
+		imagemInimigos.setColor(sf::Color::Magenta);
+	}
+
+	void desaparecer(){
+		imagemInimigos.setColor(sf::Color::Transparent);
+	}
+
 	sf::Vector2f windowSize; // Tamanho da janela para transporte
 
 };
@@ -83,7 +96,7 @@ public:
 	Tartaruga() {
 		Inimigos();
 		//imagemInimigos.setTextureRect(sf::IntRect(0, 1, 20, 15));
-		imagemInimigos.scale(5, 5);
+		imagemInimigos.scale(4, 4);
 	}
 
 	void desenharTartaruga(sf::RenderWindow &window) {

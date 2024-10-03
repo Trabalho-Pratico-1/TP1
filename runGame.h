@@ -113,7 +113,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//vagalume.pular();
 		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
-		plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga, deltaTime, collisionMap, cellWidth, cellHeight);
+		plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
+				collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
@@ -126,8 +127,37 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//fogo.desenharFogo(window);
 		//Desenhar inimigos
 		tartaruga.desenharTartaruga(window);
-		//vagalume.desenharVagalume(window);
 
+		if (colisaoInimigoPlayer(player, tartaruga) == true) {
+			if (tartaruga.vivo == true) {
+				player.getSprite().setPosition(0.0f, 480.0f);
+				player.vidas--;
+			}
+		}
+		if (player.vidas == 0) {
+			window.clear(sf::Color::Blue);
+		}
+		//std::cout << "Vidas: " << player.vidas << std::endl;
+		//Manipular a contagem de pontos
+		if (plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
+				collisionMap, cellWidth, cellHeight) == true) {
+			player.getSprite().setColor(sf::Color::Magenta);
+			tartaruga.morto();
+		}
+		/*if(tartaruga.vivo == false){
+			if(plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
+					collisionMap, cellWidth, cellHeight) == true){
+				if(colisaoInimigoPlayer(player, tartaruga)== true){
+					tartaruga.renascer();
+				}
+			}
+			if(colisaoInimigoPlayer(player, tartaruga)== true){
+			std::cout<<"Colidiu"<<std::endl;
+		}
+		}*/
+
+
+		//vagalume.desenharVagalume(window);
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }
