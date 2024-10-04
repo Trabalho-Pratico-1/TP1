@@ -1,6 +1,5 @@
 #ifndef INIMIGOS_H_
 #define INIMIGOS_H_
-#include "SFML/Graphics.hpp"
 #include "GameObject.h"
 #include "Player.h"
 // Classe derivada de GameObject para os inimigos
@@ -15,11 +14,13 @@ protected:
 public:
 	bool onGround;
 	bool vivo;
+
 	Inimigos() :
 			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(true) {
 		gravity = 0.5f;
 		speed = 50.0f;
 	}
+
 	void carregarTexture() {
 		textureInimigos.loadFromFile("Inimigos-TestandoPNG.png");
 		imagemInimigos.setTexture(textureInimigos);
@@ -54,10 +55,6 @@ public:
 			velocity.y = 0; // Reseta a velocidade vertical
 			onGround = true;
 		}
-
-//		std::cout << "OnGround: " << onGround << std::endl;
-//		std::cout<<"Posição X Inimigo: "<<posicao.x<<std::endl;
-
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {
 			imagemInimigos.setPosition(windowSize.x - width, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
@@ -70,22 +67,23 @@ public:
 			imagemInimigos.setPosition(posicao.x, windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
 		} else if (posicao.y > 400 and posicao.x > 800) {
 			imagemInimigos.setPosition(posicao.x, 2.0f); // Teletransporta para a borda superior se sair pela inferior
-
 		}
-
 	}
 
-	void morto(){
+	void morrer(){
 			speed = 0.0f;
 			vivo = false;
 	}
 	void renascer(){
-		imagemInimigos.setColor(sf::Color::Magenta);
+			speed = 60.0f;
+			vivo = true;
+	}
+	void morrerDefinitivamente(){
+		imagemInimigos.setPosition(0.0f, 0.0f);
+
 	}
 
-	void desaparecer(){
-		imagemInimigos.setColor(sf::Color::Transparent);
-	}
+
 
 	sf::Vector2f windowSize; // Tamanho da janela para transporte
 
@@ -104,6 +102,7 @@ public:
 		carregarTexture();
 		window.draw(imagemInimigos);
 	}
+
 };
 
 class Caranguejo: public Inimigos {

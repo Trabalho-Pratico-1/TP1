@@ -7,16 +7,6 @@
 
 #ifndef PLAYER_H_
 #define PLAYER_H_
-
-#include <SFML/Graphics.hpp>    // Inclui a biblioteca SFML para gráficos
-#include <SFML/Window.hpp>      // Inclui a biblioteca SFML para gerenciamento de janelas
-#include <SFML/System.hpp>      // Inclui a biblioteca SFML para funcionalidades do sistema
-#include <iostream>             // Inclui a biblioteca para operações de entrada e saída
-#include <fstream>              // Inclui a biblioteca para operações de arquivo
-#include <sstream>              // Inclui a biblioteca para operações de fluxo de string
-#include <vector>               // Inclui a biblioteca para uso de vetores
-#include <string>               // Inclui a biblioteca para operações com strings
-#include <stdexcept>            // Inclui a biblioteca para manipulação de exceções padrão
 #include "GameObject.h"
 // Classe derivada de GameObject para o jogador
 class Player: public GameObject {

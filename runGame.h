@@ -4,21 +4,11 @@
  *  Created on: 21 de set. de 2024
  *      Author: magal
  */
-
 #ifndef RUNGAME_H_
 #define RUNGAME_H_
-#include <SFML/Graphics.hpp>    // Inclui a biblioteca SFML para gráficos
-#include <SFML/Window.hpp>      // Inclui a biblioteca SFML para gerenciamento de janelas
-#include <SFML/System.hpp>      // Inclui a biblioteca SFML para funcionalidades do sistema
-#include <iostream>             // Inclui a biblioteca para operações de entrada e saída
-#include <fstream>              // Inclui a biblioteca para operações de arquivo
-#include <sstream>              // Inclui a biblioteca para operações de fluxo de string
-#include <vector>               // Inclui a biblioteca para uso de vetores
-#include <string>               // Inclui a biblioteca para operações com strings
-#include <stdexcept>            // Inclui a biblioteca para manipulação de exceções padrão
 #include "Player.h"				//Inclui o arquivo que guarda os atributos e métodos do jogador
 #include "Inimigos.h"			//Inclui o arquivo que guarda os atributos e métodos dos inimigos
-#include "Plataformas.h"
+#include "Plataformas.h"		//Inclui o arquivo que guarda os atributos e métodos das plataformas
 // Função para carregar o mapa de colisão a partir de um arquivo CSV
 std::vector<std::vector<int>> loadCollisionsFromCSV(
 		const std::string &filename) {
@@ -44,14 +34,42 @@ std::vector<std::vector<int>> loadCollisionsFromCSV(
 	return collisionMap; // Retorna o mapa de colisão
 }
 
-//Função que recebe o jogador e o inimigo e verifica se há colisão entre eles
-bool colisaoInimigoPlayer(Player player, Inimigos tartaruga) {
+//Funções que recebem o jogador e o inimigo e verifica se há colisão entre eles
+bool colisaoInimigoTartarugaPlayer(Player player, Tartaruga tartaruga) {
 	bool colisao = false;
 
 	if (player.posicao.x + player.width > tartaruga.posicao.x
 			and tartaruga.posicao.x + tartaruga.width > player.posicao.x
 			and tartaruga.posicao.y + tartaruga.height > player.posicao.y
 			and player.posicao.y + player.height > tartaruga.posicao.y) {
+		colisao = true;
+	} else {
+		colisao = false;
+	}
+	return colisao;
+}
+
+bool colisaoInimigoCaranguejoPlayer(Player player, Caranguejo caranguejo) {
+	bool colisao = false;
+
+	if (player.posicao.x + player.width > caranguejo.posicao.x
+			and caranguejo.posicao.x + caranguejo.width > player.posicao.x
+			and caranguejo.posicao.y + caranguejo.height > player.posicao.y
+			and player.posicao.y + player.height > caranguejo.posicao.y) {
+		colisao = true;
+	} else {
+		colisao = false;
+	}
+	return colisao;
+}
+
+bool colisaoInimigoVagalumePlayer(Player player, Vagalume vagalume) {
+	bool colisao = false;
+
+	if (player.posicao.x + player.width > vagalume.posicao.x
+			and vagalume.posicao.x + vagalume.width > player.posicao.x
+			and vagalume.posicao.y + vagalume.height > player.posicao.y
+			and player.posicao.y + player.height > vagalume.posicao.y) {
 		colisao = true;
 	} else {
 		colisao = false;
@@ -84,14 +102,15 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			window.getSize().y / static_cast<float>(mapTexture.getSize().y)); // Ajusta a escala do sprite para preencher a janela
 
 	Plataformas plataformas;
-// Criar o personagem
+// Criar os personagens
 	Player player; // Cria o jogador
 	player.carregarTexture();
 	player.windowSize = sf::Vector2f(window.getSize()); // Define o tamanho da janela para o jogador
 
 	//Fogo fogo;
 	Tartaruga tartaruga; //Cria o inimigo tartaruga
-	//Vagalume vagalume;
+	Vagalume vagalume;
+	Caranguejo caranguejo;
 	sf::Clock clock;  // Relógio para medir o tempo delta
 
 // Loop principal do jogo
@@ -105,16 +124,14 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Calcular o tempo delta (tempo desde o último frame)
 		float deltaTime = clock.restart().asSeconds();
 
-		// Atualizar o personagem
+		// Atualizar os personagens
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		//fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		//Atualizar inimigos
 		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		//vagalume.pular();
-		//vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		vagalume.pular();
+		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
-		plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
-				collisionMap, cellWidth, cellHeight);
 
 		window.clear(); // Limpa a janela
 
@@ -126,38 +143,79 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		//fogo.desenharFogo(window);
 		//Desenhar inimigos
-		tartaruga.desenharTartaruga(window);
-
-		if (colisaoInimigoPlayer(player, tartaruga) == true) {
+//Analisa a colisão entre a tartaruga e o player
+		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
 			}
+			if (tartaruga.vivo == false) {
+				player.pontos = player.pontos + 100;
+				std::cout << "Pontos: " << player.pontos << std::endl;
+				tartaruga.morrerDefinitivamente();
+				tartaruga.renascer();
+			}
 		}
+
+		if (tartaruga.vivo == true) {
+			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
+					collisionMap, cellWidth, cellHeight) == true) {
+				tartaruga.morrer();
+			}
+		}
+
+		tartaruga.desenharTartaruga(window);
+
+//Analisa a colisão entre vagalume e o player
+		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
+			if (vagalume.vivo == true) {
+				player.getSprite().setPosition(0.0f, 480.0f);
+				player.vidas--;
+			}
+			if (vagalume.vivo == false) {
+				player.pontos = player.pontos + 100;
+				std::cout << "Pontos: " << player.pontos << std::endl;
+				vagalume.morrerDefinitivamente();
+				vagalume.renascer();
+			}
+		}
+
+		if (vagalume.vivo == true) {
+			if (plataformas.colisaoPlayerPlataformaVagalume(player, vagalume,
+					collisionMap, cellWidth, cellHeight) == true) {
+				vagalume.morrer();
+			}
+		}
+
+		//vagalume.desenharVagalume(window);
+
+//Analisa a colisão entre caranguejo e o player
+		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
+			if (caranguejo.vivo == true) {
+				player.getSprite().setPosition(0.0f, 480.0f);
+				player.vidas--;
+			}
+			if (caranguejo.vivo == false) {
+				player.pontos = player.pontos + 100;
+				std::cout << "Pontos: " << player.pontos << std::endl;
+				caranguejo.morrerDefinitivamente();
+				caranguejo.renascer();
+			}
+		}
+
+		if (caranguejo.vivo == true) {
+			if (plataformas.colisaoPlayerPlataformaCaranguejo(player, caranguejo,
+					collisionMap, cellWidth, cellHeight) == true) {
+				caranguejo.morrer();
+			}
+		}
+
+		//caranguejo.desenharCaranguejo(window);
+
 		if (player.vidas == 0) {
 			window.clear(sf::Color::Blue);
 		}
-		//std::cout << "Vidas: " << player.vidas << std::endl;
-		//Manipular a contagem de pontos
-		if (plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
-				collisionMap, cellWidth, cellHeight) == true) {
-			player.getSprite().setColor(sf::Color::Magenta);
-			tartaruga.morto();
-		}
-		/*if(tartaruga.vivo == false){
-			if(plataformas.colisaoPlayerPlataformaInimigo(player, tartaruga,
-					collisionMap, cellWidth, cellHeight) == true){
-				if(colisaoInimigoPlayer(player, tartaruga)== true){
-					tartaruga.renascer();
-				}
-			}
-			if(colisaoInimigoPlayer(player, tartaruga)== true){
-			std::cout<<"Colidiu"<<std::endl;
-		}
-		}*/
 
-
-		//vagalume.desenharVagalume(window);
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }
