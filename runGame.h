@@ -77,6 +77,20 @@ bool colisaoInimigoVagalumePlayer(Player player, Vagalume vagalume) {
 	return colisao;
 }
 
+bool colisaoInimigoFogoPlayer(Player player, Fogo fogo) {
+	bool colisao = false;
+
+	if (player.posicao.x + player.width > fogo.getPosicao().x
+			and fogo.getPosicao().x + fogo.getWidth() > player.posicao.x
+			and fogo.getPosicao().y + fogo.getHeight() > player.posicao.y
+			and player.posicao.y + player.height > fogo.getPosicao().y) {
+		colisao = true;
+	} else {
+		colisao = false;
+	}
+	return colisao;
+}
+
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -107,7 +121,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	player.carregarTexture();
 	player.windowSize = sf::Vector2f(window.getSize()); // Define o tamanho da janela para o jogador
 
-	//Fogo fogo;
+	Fogo fogo;
 	Tartaruga tartaruga; //Cria o inimigo tartaruga
 	Vagalume vagalume;
 	Caranguejo caranguejo;
@@ -126,12 +140,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		// Atualizar os personagens
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		//fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		vagalume.pular();
 		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
-
 
 		window.clear(); // Limpa a janela
 
@@ -141,8 +154,14 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 
-		//fogo.desenharFogo(window);
-		//Desenhar inimigos
+		fogo.desenharFogo(window);
+
+//Analisa a colisão entre fogo e o player
+		if (colisaoInimigoFogoPlayer(player, fogo) == true) {
+				player.getSprite().setPosition(0.0f, 480.0f);
+				player.vidas--;
+		}
+
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
@@ -164,7 +183,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 		}
 
-		tartaruga.desenharTartaruga(window);
+		//tartaruga.desenharTartaruga(window);
 
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
@@ -204,8 +223,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		}
 
 		if (caranguejo.vivo == true) {
-			if (plataformas.colisaoPlayerPlataformaCaranguejo(player, caranguejo,
-					collisionMap, cellWidth, cellHeight) == true) {
+			if (plataformas.colisaoPlayerPlataformaCaranguejo(player,
+					caranguejo, collisionMap, cellWidth, cellHeight) == true) {
 				caranguejo.morrer();
 			}
 		}
