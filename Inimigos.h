@@ -8,7 +8,7 @@ protected:
 	sf::Texture textureInimigos;
 	sf::Sprite imagemInimigos;
 	sf::Vector2f posicaoInimigos;
-	sf::Vector2f velocity;
+	sf::Vector2f deslocamento;
 	float gravity;
 	float speed;
 public:
@@ -16,7 +16,7 @@ public:
 	bool vivo;
 
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(
+			deslocamento(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(
 					true) {
 		gravity = 0.5f;
 		speed = 50.0f;
@@ -30,13 +30,13 @@ public:
 	void update(float deltaTime,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
-		velocity.x = 0.0f; // Inicializa a velocidade horizontal
+		deslocamento.x = 0.0f; // Inicializa a velocidade horizontal
 		// Atualiza a velocidade horizontal com base no tempo
-		velocity.x = speed * deltaTime;
+		deslocamento.x = speed * deltaTime;
 		// Aplica a gravidade
-		velocity.y += gravity;
+		deslocamento.y += gravity;
 		// Move a forma do inimigo com base na velocidade
-		imagemInimigos.move(velocity);
+		imagemInimigos.move(deslocamento);
 
 		posicao = imagemInimigos.getPosition(); // Obtém a posição atual do jogador
 		globalBounds = imagemInimigos.getGlobalBounds();
@@ -53,7 +53,7 @@ public:
 				|| collisionMap[cellYBottom][cellXRight] != -1) {
 			imagemInimigos.setPosition(posicao.x,
 					cellYBottom * cellHeight - height); // Ajusta a posição do inimigo para o chão
-			velocity.y = 0; // Reseta a velocidade vertical
+			deslocamento.y = 0; // Reseta a velocidade vertical
 			onGround = true;
 		}
 		// Transporte pelas bordas da janela
@@ -144,7 +144,7 @@ public:
 	}
 	void pular() {
 		if (onGround == true and posicao.x < 720) {
-			velocity.y = -3.0f;
+			deslocamento.y = -3.0f;
 			onGround = false;
 		}
 	}
