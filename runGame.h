@@ -132,6 +132,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
+
 		window.clear(); // Limpa a janela
 
 		// Desenhar o mapa
@@ -140,7 +141,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 
-		//fogo.desenharFogo(window);
+		fogo.desenharFogo(window);
 		//Desenhar inimigos
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
@@ -155,13 +156,16 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				tartaruga.renascer();
 			}
 		}
+
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
 				tartaruga.morrer();
 			}
 		}
-//		tartaruga.desenharTartaruga(window);
+
+		//tartaruga.desenharTartaruga(window);
+
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
@@ -192,21 +196,21 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				player.vidas--;
 			}
 			if (caranguejo.vivo == false) {
-				caranguejo.morrerDefinitivamente();
-				caranguejo.renascer();
 				player.pontos = player.pontos + 100;
 				std::cout << "Pontos: " << player.pontos << std::endl;
+				caranguejo.morrerDefinitivamente();
+				caranguejo.renascer();
 			}
 		}
 
 		if (caranguejo.vivo == true) {
-			if (plataformas.colisaoPlayerPlataformaCaranguejo(player,
-					caranguejo, collisionMap, cellWidth, cellHeight) == true) {
+			if (plataformas.colisaoPlayerPlataformaCaranguejo(player, caranguejo,
+					collisionMap, cellWidth, cellHeight) == true) {
 				caranguejo.morrer();
 			}
 		}
 
-		caranguejo.desenharCaranguejo(window);
+		//caranguejo.desenharCaranguejo(window);
 
 		if (player.vidas == 0) {
 			window.clear(sf::Color::Blue);
