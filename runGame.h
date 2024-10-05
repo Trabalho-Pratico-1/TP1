@@ -132,7 +132,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
-
 		window.clear(); // Limpa a janela
 
 		// Desenhar o mapa
@@ -141,13 +140,14 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 
-		fogo.desenharFogo(window);
-		//Desenhar inimigos
+		//fogo.desenharFogo(window);		//Desenha inimigo fogo
+
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
+				std::cout<<"Vidas: "<<player.vidas<<std::endl;
 			}
 			if (tartaruga.vivo == false) {
 				player.pontos = player.pontos + 100;
@@ -156,16 +156,13 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				tartaruga.renascer();
 			}
 		}
-
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
 				tartaruga.morrer();
 			}
 		}
-
-		//tartaruga.desenharTartaruga(window);
-
+		tartaruga.desenharTartaruga(window);
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
@@ -196,16 +193,16 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				player.vidas--;
 			}
 			if (caranguejo.vivo == false) {
-				player.pontos = player.pontos + 100;
-				std::cout << "Pontos: " << player.pontos << std::endl;
 				caranguejo.morrerDefinitivamente();
 				caranguejo.renascer();
+				player.pontos = player.pontos + 100;
+				std::cout << "Pontos: " << player.pontos << std::endl;
 			}
 		}
 
 		if (caranguejo.vivo == true) {
-			if (plataformas.colisaoPlayerPlataformaCaranguejo(player, caranguejo,
-					collisionMap, cellWidth, cellHeight) == true) {
+			if (plataformas.colisaoPlayerPlataformaCaranguejo(player,
+					caranguejo, collisionMap, cellWidth, cellHeight) == true) {
 				caranguejo.morrer();
 			}
 		}
@@ -215,7 +212,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		if (player.vidas == 0) {
 			window.clear(sf::Color::Blue);
 		}
-
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }

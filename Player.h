@@ -33,12 +33,12 @@ public:
 	}
 	//Implementação do método carregarTexture para carregar a textura e o sprite e a escala da imagem
 	void carregarTexture() {
-		if (!texturePersongem.loadFromFile("personagem.png")) {
+		if (!texturePersongem.loadFromFile("mario.png")) {
 			std::cout << "Erro ao carregar textura." << std::endl;
 		} else {
-			texturePersongem.loadFromFile("personagem.png");
+			texturePersongem.loadFromFile("mario.png");
 			sprite.setTexture(texturePersongem);
-			sprite.scale(0.12, 0.12);
+			sprite.scale(0.2, 0.2);
 			sprite.setPosition(posicaoPlayer);
 		}
 
@@ -52,10 +52,12 @@ public:
 		// Atualiza a velocidade horizontal com base nas teclas pressionadas
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
 			velocity.x = -speed * deltaTime;
+			texturePersongem.loadFromFile("mario2.png");
 		}
 
 		if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
 			velocity.x = speed * deltaTime;
+			texturePersongem.loadFromFile("mario.png");
 		}
 
 		// Atualiza a velocidade vertical se a tecla de salto for pressionada e o jogador não estiver pulando

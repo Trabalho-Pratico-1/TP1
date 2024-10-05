@@ -16,7 +16,8 @@ public:
 	bool vivo;
 
 	Inimigos() :
-			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(true) {
+			velocity(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(false), vivo(
+					true) {
 		gravity = 0.5f;
 		speed = 50.0f;
 	}
@@ -70,20 +71,10 @@ public:
 		}
 	}
 
-	void morrer(){
-			speed = 0.0f;
-			vivo = false;
-	}
-	void renascer(){
-			speed = 60.0f;
-			vivo = true;
-	}
-	void morrerDefinitivamente(){
+	void morrerDefinitivamente() {
 		imagemInimigos.setPosition(0.0f, 0.0f);
 
 	}
-
-
 
 	sf::Vector2f windowSize; // Tamanho da janela para transporte
 
@@ -94,13 +85,24 @@ public:
 	Tartaruga() {
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
-		imagemInimigos.scale(3, 3);
+		imagemInimigos.scale(2, 2);
 	}
 
 	void desenharTartaruga(sf::RenderWindow &window) {
 		//moverTartaruga();
 		carregarTexture();
 		window.draw(imagemInimigos);
+	}
+
+	void morrer() {
+		speed = 0.0f;
+		vivo = false;
+		imagemInimigos.setTextureRect(sf::IntRect(270, 336, 25, 15));
+	}
+	void renascer() {
+		speed = 60.0f;
+		vivo = true;
+		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
 	}
 
 };
@@ -110,11 +112,21 @@ public:
 	Caranguejo() {
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 16, 13));
-		imagemInimigos.scale(3.5, 3.5);
+		imagemInimigos.scale(2.5, 2.5);
 	}
 	void desenharCaranguejo(sf::RenderWindow &window) {
 		carregarTexture();
 		window.draw(imagemInimigos);
+	}
+	void morrer() {
+		speed = 0.0f;
+		vivo = false;
+		imagemInimigos.setTextureRect(sf::IntRect(132, 418, 16, 16));
+	}
+	void renascer() {
+		speed = 60.0f;
+		vivo = true;
+		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 16, 13));
 	}
 
 };
@@ -124,7 +136,7 @@ public:
 	Vagalume() {
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 15, 12));
-		imagemInimigos.scale(3, 3);
+		imagemInimigos.scale(2, 2);
 	}
 	void desenharVagalume(sf::RenderWindow &window) {
 		carregarTexture();
@@ -135,6 +147,16 @@ public:
 			velocity.y = -3.0f;
 			onGround = false;
 		}
+	}
+	void morrer() {
+		speed = 0.0f;
+		vivo = false;
+		imagemInimigos.setTextureRect(sf::IntRect(154, 507, 18, 16));
+	}
+	void renascer() {
+		speed = 60.0f;
+		vivo = true;
+		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 15, 12));
 	}
 
 };
@@ -198,8 +220,8 @@ public:
 		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 275) {
 			imagemInimigos.setPosition(0, 430);
 		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 430) {
-		 imagemInimigos.setPosition(0, 0);
-		 }
+			imagemInimigos.setPosition(0, 0);
+		}
 
 		imagemInimigos.move(velocity);
 
