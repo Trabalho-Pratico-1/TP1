@@ -112,7 +112,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	Vagalume vagalume;
 	Caranguejo caranguejo;
 	sf::Clock clock;  // Relógio para medir o tempo delta
-	//float duracao;
 
 // Loop principal do jogo
 	while (window.isOpen()) {
@@ -124,7 +123,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		// Calcular o tempo delta (tempo desde o último frame)
 		float deltaTime = clock.restart().asSeconds();
-		//sf::Time time = clock.restart();
 
 		// Atualizar os personagens
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
@@ -145,8 +143,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		//fogo.desenharFogo(window);
 		//Desenhar inimigos
 //Analisa a colisão entre a tartaruga e o player
-
-
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
@@ -159,32 +155,13 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				tartaruga.renascer();
 			}
 		}
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-
-			       // std::cout << duracao << std::endl;
-
-=======
->>>>>>> 761bc71690a730f776124527c552b287ee4702f4
->>>>>>> Stashed changes
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
 				tartaruga.morrer();
 			}
 		}
-<<<<<<< Updated upstream
 //		tartaruga.desenharTartaruga(window);
-=======
-<<<<<<< HEAD
-
-		tartaruga.desenharTartaruga(window);
-
-=======
-//		tartaruga.desenharTartaruga(window);
->>>>>>> 761bc71690a730f776124527c552b287ee4702f4
->>>>>>> Stashed changes
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
