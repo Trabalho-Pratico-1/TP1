@@ -77,20 +77,6 @@ bool colisaoInimigoVagalumePlayer(Player player, Vagalume vagalume) {
 	return colisao;
 }
 
-bool colisaoInimigoFogoPlayer(Player player, Fogo fogo) {
-	bool colisao = false;
-
-	if (player.posicao.x + player.width > fogo.getPosicao().x
-			and fogo.getPosicao().x + fogo.getWidth() > player.posicao.x
-			and fogo.getPosicao().y + fogo.getHeight() > player.posicao.y
-			and player.posicao.y + player.height > fogo.getPosicao().y) {
-		colisao = true;
-	} else {
-		colisao = false;
-	}
-	return colisao;
-}
-
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -146,6 +132,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 
+
 		window.clear(); // Limpa a janela
 
 		// Desenhar o mapa
@@ -155,13 +142,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		window.draw(player.getSprite());
 
 		fogo.desenharFogo(window);
-
-//Analisa a colisão entre fogo e o player
-		if (colisaoInimigoFogoPlayer(player, fogo) == true) {
-				player.getSprite().setPosition(0.0f, 480.0f);
-				player.vidas--;
-		}
-
+		//Desenhar inimigos
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
@@ -223,8 +204,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		}
 
 		if (caranguejo.vivo == true) {
-			if (plataformas.colisaoPlayerPlataformaCaranguejo(player,
-					caranguejo, collisionMap, cellWidth, cellHeight) == true) {
+			if (plataformas.colisaoPlayerPlataformaCaranguejo(player, caranguejo,
+					collisionMap, cellWidth, cellHeight) == true) {
 				caranguejo.morrer();
 			}
 		}

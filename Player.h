@@ -16,10 +16,11 @@ private:
 	sf::Vector2f posicaoPlayer;
 public:
 	int vidas;
+	bool pulo;
 	int pontos = 0;
 	// Construtor da classe que inicializa o jogador com propriedades de movimento
 	Player() :
-			velocity(0.0f, 0.0f), isJumping(false),posicaoPlayer(0.0f, 400.0f) {
+			velocity(0.0f, 0.0f), isJumping(false), pulo(false), posicaoPlayer(0.0f, 400.0f) {
 		sf::Vector2f velocity(0.0f, 0.0f); //Define a velocidade
 		gravity = 0.5f;          // Define a gravidade
 		jumpForce = -12.5f;     // Define a força do salto
@@ -32,13 +33,12 @@ public:
 	}
 	//Implementação do método carregarTexture para carregar a textura e o sprite e a escala da imagem
 	void carregarTexture() {
-		if (!texturePersongem.loadFromFile("sprites.png")) {
+		if (!texturePersongem.loadFromFile("personagem.png")) {
 			std::cout << "Erro ao carregar textura." << std::endl;
 		} else {
-			texturePersongem.loadFromFile("sprites.png");
+			texturePersongem.loadFromFile("personagem.png");
 			sprite.setTexture(texturePersongem);
-			sprite.setTextureRect(sf::IntRect(3, 603, 17, 21));
-			sprite.scale(3.5, 3.5);
+			sprite.scale(0.12, 0.12);
 			sprite.setPosition(posicaoPlayer);
 		}
 
@@ -100,6 +100,12 @@ public:
 				velocity.y = 0; // Reseta a velocidade vertical
 				isJumping = false; // Permite que o jogador pule novamente
 			}
+		}
+
+		if (isJumping == false and onGround == false) {
+			pulo = true;
+		} else {
+			pulo = false;
 		}
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {

@@ -93,8 +93,8 @@ class Tartaruga: public Inimigos {
 public:
 	Tartaruga() {
 		Inimigos();
-		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 18, 17));
-		imagemInimigos.scale(2, 2);
+		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
+		imagemInimigos.scale(3, 3);
 	}
 
 	void desenharTartaruga(sf::RenderWindow &window) {
@@ -109,8 +109,8 @@ class Caranguejo: public Inimigos {
 public:
 	Caranguejo() {
 		Inimigos();
-		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 17, 13));
-		imagemInimigos.scale(3, 3);
+		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 16, 13));
+		imagemInimigos.scale(3.5, 3.5);
 	}
 	void desenharCaranguejo(sf::RenderWindow &window) {
 		carregarTexture();
@@ -123,7 +123,7 @@ class Vagalume: public Inimigos {
 public:
 	Vagalume() {
 		Inimigos();
-		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 17, 13));
+		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 15, 12));
 		imagemInimigos.scale(3, 3);
 	}
 	void desenharVagalume(sf::RenderWindow &window) {
@@ -148,15 +148,17 @@ protected:
 	float gravity;
 	float speed;
 public:
+	int vx, vy;
 	Fogo() :
 			posicaoFogo(0.0f, 0.0f), velocity(0.0f, 0.0f) {
 		textureInimigos.loadFromFile("sprites.png");
-		imagemInimigos.setTextureRect(sf::IntRect(10, 216, 16, 16));
 		imagemInimigos.setTexture(textureInimigos);
+		imagemInimigos.setTextureRect(sf::IntRect(10, 216, 16, 16));
 		imagemInimigos.scale(3, 3);
 		imagemInimigos.setPosition(posicaoFogo);
 		gravity = 0.5f;
 		speed = 150.0f;
+		vx = vy = 0;
 	}
 	void desenharFogo(sf::RenderWindow &window) {
 		window.draw(imagemInimigos);
@@ -201,16 +203,6 @@ public:
 
 		imagemInimigos.move(velocity);
 
-	}
-
-	sf::Vector2f getPosicao(){
-		return this->posicao;
-	}
-	float getHeight(){
-		return this->height;
-	}
-	float getWidth(){
-		return this->width;
 	}
 
 };
