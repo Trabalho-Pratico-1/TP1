@@ -71,6 +71,21 @@ public:
 		}
 	}
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+	void morrer() {
+		speed = 0.0f;
+		vivo = false;
+
+	}
+	void renascer() {
+		speed = 60.0f;
+		vivo = true;
+	}
+=======
+>>>>>>> 761bc71690a730f776124527c552b287ee4702f4
+>>>>>>> Stashed changes
 	void morrerDefinitivamente() {
 		imagemInimigos.setPosition(0.0f, 0.0f);
 
@@ -81,11 +96,16 @@ public:
 };
 
 class Tartaruga: public Inimigos {
+private:
+
+	sf::Clock clock;
+	sf::Time time;
 public:
 	Tartaruga() {
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
 		imagemInimigos.scale(3, 3);
+
 	}
 
 	void desenharTartaruga(sf::RenderWindow &window) {
@@ -95,6 +115,28 @@ public:
 	}
 
 	void morrer() {
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+		Inimigos::morrer();
+		clock.restart();
+	}
+	void update(float deltaTime,
+			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
+			float cellHeight) override {
+		if (vivo == false) {
+			if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+				std::cout << "TEmpo" << std::endl;
+				renascer();
+				clock.restart();
+			}
+		}
+		else{
+			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+		}
+
+=======
+>>>>>>> Stashed changes
 		speed = 0.0f;
 		vivo = false;
 		imagemInimigos.setTextureRect(sf::IntRect(270, 336, 25, 15));
@@ -103,6 +145,10 @@ public:
 		speed = 60.0f;
 		vivo = true;
 		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
+<<<<<<< Updated upstream
+=======
+>>>>>>> 761bc71690a730f776124527c552b287ee4702f4
+>>>>>>> Stashed changes
 	}
 
 };
