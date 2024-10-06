@@ -112,10 +112,7 @@ public:
 		imagemInimigos.setTextureRect(sf::IntRect(270, 336, 25, 15));
 	}
 	void renascer() {
-		if (clock.getElapsedTime() > sf::seconds(5.0f)) {
-			Inimigos::renascer();
-			clock.restart();
-		}
+		Inimigos::renascer();
 		imagemInimigos.setTextureRect(sf::IntRect(7, 331, 15, 15));
 	}
 

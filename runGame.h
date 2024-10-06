@@ -140,25 +140,42 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		// Desenhar o personagem
 		window.draw(player.getSprite());
 
+		string vidasString = to_string(player.vidas);
+		std::string vidas = "Vidas: ";
+
 		//fogo.desenharFogo(window);		//Desenha inimigo fogo
+		sf::Font fonte;
+		fonte.loadFromFile("SuperMarioBros.2.ttf");
+		sf::Text texto;
+		texto.setFont(fonte);
+		texto.setCharacterSize(20);
+		texto.setString(vidas + vidasString);
+		texto.setPosition(500, 0);
+		window.draw(texto);
+
+		string pontosString = to_string(player.pontos);
+		sf::Text pontuacao;
+		pontuacao.setFont(fonte);
+		pontuacao.setCharacterSize(20);
+		pontuacao.setString(pontosString);
+		pontuacao.setPosition(400, 550);
+		window.draw(pontuacao);
 
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
-				std::cout << "Vidas: " << player.vidas << std::endl;
+
 			}
 			if (tartaruga.vivo == false) {
-				player.pontos = player.pontos + 100;
-				std::cout << "Pontos: " << player.pontos << std::endl;
 				tartaruga.morrerDefinitivamente();
+				tartaruga.renascer();
+				player.pontos = player.pontos + 100;
 			}
-		}
-		/*if(tartaruga.morrerDefinitivamente() == true){
-			tartaruga.renascer();
 
-		}*/
+		}
+
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
@@ -174,7 +191,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (vagalume.vivo == false) {
 				player.pontos = player.pontos + 100;
-				std::cout << "Pontos: " << player.pontos << std::endl;
 				vagalume.morrerDefinitivamente();
 				vagalume.renascer();
 			}
@@ -188,20 +204,18 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		}
 
 		/*if (player.pontos >= 600) {
-			vagalume.desenharVagalume(window);
-		}*/
+		 vagalume.desenharVagalume(window);
+		 }*/
 
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
 			if (caranguejo.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
-				std::cout << "Vidas: " << player.vidas << std::endl;
 			}
 			if (caranguejo.vivo == false) {
 				caranguejo.morrerDefinitivamente();
 				player.pontos = player.pontos + 100;
-				std::cout << "Pontos: " << player.pontos << std::endl;
 				caranguejo.renascer();
 			}
 		}
@@ -212,11 +226,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
-/*
-		if (player.pontos >= 1200) {
-			caranguejo.desenharCaranguejo(window);
-		}
-*/
+		/*
+		 if (player.pontos >= 1200) {
+		 caranguejo.desenharCaranguejo(window);
+		 }
+		 */
 		if (player.vidas == 0) {
 			window.clear(sf::Color::Blue);
 		}
