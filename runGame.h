@@ -147,15 +147,18 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			if (tartaruga.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
-				std::cout<<"Vidas: "<<player.vidas<<std::endl;
+				std::cout << "Vidas: " << player.vidas << std::endl;
 			}
 			if (tartaruga.vivo == false) {
 				player.pontos = player.pontos + 100;
 				std::cout << "Pontos: " << player.pontos << std::endl;
 				tartaruga.morrerDefinitivamente();
-				tartaruga.renascer();
 			}
 		}
+		/*if(tartaruga.morrerDefinitivamente() == true){
+			tartaruga.renascer();
+
+		}*/
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
@@ -184,19 +187,22 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 		}
 
-		//vagalume.desenharVagalume(window);
+		/*if (player.pontos >= 600) {
+			vagalume.desenharVagalume(window);
+		}*/
 
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
 			if (caranguejo.vivo == true) {
 				player.getSprite().setPosition(0.0f, 480.0f);
 				player.vidas--;
+				std::cout << "Vidas: " << player.vidas << std::endl;
 			}
 			if (caranguejo.vivo == false) {
 				caranguejo.morrerDefinitivamente();
-				caranguejo.renascer();
 				player.pontos = player.pontos + 100;
 				std::cout << "Pontos: " << player.pontos << std::endl;
+				caranguejo.renascer();
 			}
 		}
 
@@ -206,9 +212,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
-
-		//caranguejo.desenharCaranguejo(window);
-
+/*
+		if (player.pontos >= 1200) {
+			caranguejo.desenharCaranguejo(window);
+		}
+*/
 		if (player.vidas == 0) {
 			window.clear(sf::Color::Blue);
 		}
