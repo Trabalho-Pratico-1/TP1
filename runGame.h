@@ -199,10 +199,10 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			player.pontos = caranguejo.morto * 100;
 		}*/
 
-		if (player.vidas <= 0) {
-			window.clear(sf::Color::Cyan);
-		}
 		window.display(); // Exibe o conteúdo renderizado na janela
+		if (player.vidas < 0) {
+			window.close();
+		}
 	}
 }
 
