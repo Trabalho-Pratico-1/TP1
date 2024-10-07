@@ -78,6 +78,20 @@ bool colisaoInimigoVagalumePlayer(Player player, Vagalume vagalume) {
 	return colisao;
 }
 
+bool colisaoInimigoFogoPlayer(Player player, Fogo fogo) {
+	bool colisao = false;
+
+	if (player.posicao.x + player.width > fogo.getPosicao().x
+			and fogo.getPosicao().x + fogo.getWidth() > player.posicao.x
+			and fogo.getPosicao().y + fogo.getHeight() > player.posicao.y
+			and player.posicao.y + player.height > fogo.getPosicao().y) {
+		colisao = true;
+	} else {
+		colisao = false;
+	}
+	return colisao;
+}
+
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
@@ -144,7 +158,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		string vidasString = to_string(player.vidas);
 		std::string vidas = "Vidas: ";
 
-		//fogo.desenharFogo(window);		//Desenha inimigo fogo
 		sf::Font fonte;
 		fonte.loadFromFile("SuperMarioBros.2.ttf");
 		sf::Text texto;
@@ -161,6 +174,12 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		pontuacao.setString(pontosString);
 		pontuacao.setPosition(400, 550);
 		window.draw(pontuacao);
+
+		if (colisaoInimigoFogoPlayer(player, fogo) == true) {
+			player.getSprite().setPosition(0.0f, 480.0f);
+			player.vidas--;
+		}
+		fogo.desenharFogo(window);		//Desenha inimigo fogo
 
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
@@ -180,13 +199,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 		player.pontos = tartaruga.morto * 100;
 
-		if (tartaruga.vivo == false) {
-			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
-					collisionMap, cellWidth, cellHeight) == true) {
-				tartaruga.renascer();
-			}
-		}
-
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
@@ -194,7 +206,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 		}
 
-		tartaruga.desenharTartaruga(window);
+		//tartaruga.desenharTartaruga(window);
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
@@ -203,9 +215,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (vagalume.vivo == false) {
 				vagalume.morrerDefinitivamente();
-				vagalume.mortos();
-				std::cout << "mortas: " << vagalume.morto << std::endl;
 				vagalume.renascer();
+				vagalume.mortos();
 			}
 		}
 
@@ -215,12 +226,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				vagalume.morrer();
 			}
 		}
-		//player.pontos = vagalume.morto * 100;
+		player.pontos = vagalume.morto * 100;
 
 		/*if (player.pontos >= 600) {
+		 vagalume.desenharVagalume(window);
 		 }*/
-		//vagalume.desenharVagalume(window);
-
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
 			if (caranguejo.vivo == true) {
@@ -231,7 +241,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrerDefinitivamente();
 				caranguejo.renascer();
 				caranguejo.mortos();
-				std::cout << "mortas: " << caranguejo.morto << std::endl;
+				std::cout << "mortos: " << caranguejo.morto << std::endl;
 			}
 		}
 
@@ -241,9 +251,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
-		//player.pontos = caranguejo.morto * 100;
+		player.pontos = caranguejo.morto * 100;
 
-		 //caranguejo.desenharCaranguejo(window);
+		//caranguejo.desenharCaranguejo(window);
 
 		/*
 		 if (player.pontos >= 1200) {

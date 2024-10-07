@@ -37,8 +37,8 @@ public:
 		vivo = true;
 	}
 
-	void mortos(){
-		if(morrerDefinitivamente() == true){
+	void mortos() {
+		if (morrerDefinitivamente() == true) {
 			morto++;
 		}
 	}
@@ -239,7 +239,6 @@ protected:
 	float gravity;
 	float speed;
 public:
-	int vx, vy;
 	Fogo() :
 			posicaoFogo(0.0f, 0.0f), velocity(0.0f, 0.0f) {
 		textureInimigos.loadFromFile("sprites.png");
@@ -249,10 +248,21 @@ public:
 		imagemInimigos.setPosition(posicaoFogo);
 		gravity = 0.5f;
 		speed = 150.0f;
-		vx = vy = 0;
 	}
 	void desenharFogo(sf::RenderWindow &window) {
 		window.draw(imagemInimigos);
+	}
+
+	sf::Vector2f getPosicao() {
+		return this->posicao;
+	}
+
+	float getWidth() {
+		return this->width;
+	}
+
+	float getHeight() {
+		return this->height;
 	}
 
 	void update(float deltaTime,
@@ -287,8 +297,8 @@ public:
 		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 170) {
 			imagemInimigos.setPosition(0, 275);
 		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 275) {
-			imagemInimigos.setPosition(0, 430);
-		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 430) {
+			imagemInimigos.setPosition(0, 440);
+		} else if (posicao.x <= 5 and speed == -150.0f and posicao.y == 440) {
 			imagemInimigos.setPosition(0, 0);
 		}
 
