@@ -33,11 +33,13 @@ public:
 	}
 
 	void renascer() {
-		speed = 60.0f;
+		speed = 70.0f;
 		vivo = true;
 	}
 
 	void mortos() {
+		morrerDefinitivamente();
+		renascer();
 		if (morrerDefinitivamente() == true) {
 			morto++;
 		}
@@ -127,7 +129,7 @@ public:
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
 		if (vivo == false) {
-			if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 				renascer();
 				clock.restart();
 			}
@@ -148,6 +150,7 @@ public:
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 16, 13));
 		imagemInimigos.scale(2.5, 2.5);
+		speed = 50.0f;
 	}
 	void desenharCaranguejo(sf::RenderWindow &window) {
 		carregarTexture();
@@ -159,10 +162,11 @@ public:
 		imagemInimigos.setTextureRect(sf::IntRect(132, 418, 16, 16));
 	}
 	void renascer() {
-		if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+		if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 			Inimigos::renascer();
 			clock.restart();
 		}
+		speed = 60.0f;
 		imagemInimigos.setTextureRect(sf::IntRect(6, 422, 16, 13));
 	}
 
@@ -190,6 +194,7 @@ public:
 		Inimigos();
 		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 15, 12));
 		imagemInimigos.scale(2, 2);
+		speed = 55.0f;
 	}
 	void desenharVagalume(sf::RenderWindow &window) {
 		carregarTexture();
@@ -211,6 +216,7 @@ public:
 			Inimigos::renascer();
 			clock.restart();
 		}
+		speed = 60.0f;
 		imagemInimigos.setTextureRect(sf::IntRect(6, 509, 15, 12));
 	}
 

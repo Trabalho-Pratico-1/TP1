@@ -9,7 +9,7 @@
 #include "Player.h"				//Inclui o arquivo que guarda os atributos e métodos do jogador
 #include "Inimigos.h"			//Inclui o arquivo que guarda os atributos e métodos dos inimigos
 #include "Plataformas.h"		//Inclui o arquivo que guarda os atributos e métodos das plataformas
-#include "Background.h"
+#include "Colisoes.h"
 // Função para carregar o mapa de colisão a partir de um arquivo CSV
 std::vector<std::vector<int>> loadCollisionsFromCSV(
 		const std::string &filename) {
@@ -33,63 +33,6 @@ std::vector<std::vector<int>> loadCollisionsFromCSV(
 	}
 
 	return collisionMap; // Retorna o mapa de colisão
-}
-
-//Funções que recebem o jogador e o inimigo e verifica se há colisão entre eles
-bool colisaoInimigoTartarugaPlayer(Player player, Tartaruga tartaruga) {
-	bool colisao = false;
-
-	if (player.posicao.x + player.width > tartaruga.posicao.x
-			and tartaruga.posicao.x + tartaruga.width > player.posicao.x
-			and tartaruga.posicao.y + tartaruga.height > player.posicao.y
-			and player.posicao.y + player.height > tartaruga.posicao.y) {
-		colisao = true;
-	} else {
-		colisao = false;
-	}
-	return colisao;
-}
-
-bool colisaoInimigoCaranguejoPlayer(Player player, Caranguejo caranguejo) {
-	bool colisao = false;
-
-	if (player.posicao.x + player.width > caranguejo.posicao.x
-			and caranguejo.posicao.x + caranguejo.width > player.posicao.x
-			and caranguejo.posicao.y + caranguejo.height > player.posicao.y
-			and player.posicao.y + player.height > caranguejo.posicao.y) {
-		colisao = true;
-	} else {
-		colisao = false;
-	}
-	return colisao;
-}
-
-bool colisaoInimigoVagalumePlayer(Player player, Vagalume vagalume) {
-	bool colisao = false;
-
-	if (player.posicao.x + player.width > vagalume.posicao.x
-			and vagalume.posicao.x + vagalume.width > player.posicao.x
-			and vagalume.posicao.y + vagalume.height > player.posicao.y
-			and player.posicao.y + player.height > vagalume.posicao.y) {
-		colisao = true;
-	} else {
-		colisao = false;
-	}
-	return colisao;
-}
-
-bool colisaoInimigoFogoPlayer(Player player, Fogo fogo) {
-	bool colisao = false;
-
-	if (player.posicao.x + player.width > fogo.getPosicao().x
-			and fogo.getPosicao().x + fogo.getWidth() > player.posicao.x
-			and fogo.getPosicao().y + fogo.getHeight() > player.posicao.y
-			and player.posicao.y + player.height > fogo.getPosicao().y) {
-		colisao = true;
-	} else {
-		colisao = false;
-	}
-	return colisao;
 }
 
 // Função principal para executar o jogo
@@ -181,6 +124,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		}
 		fogo.desenharFogo(window);		//Desenha inimigo fogo
 
+		player.pontos = (vagalume.morto + tartaruga.morto + caranguejo.morto)
+				* 100; //Pontuação
+
 //Analisa a colisão entre a tartaruga e o player
 		if (colisaoInimigoTartarugaPlayer(player, tartaruga) == true) {
 			if (tartaruga.vivo == true) {
@@ -189,15 +135,13 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 			}
 			if (tartaruga.vivo == false) {
-				tartaruga.morrerDefinitivamente();
-				tartaruga.renascer();
 				tartaruga.mortos();
 				std::cout << "mortas: " << tartaruga.morto << std::endl;
 			}
 
 		}
 
-		player.pontos = tartaruga.morto * 100;
+		//player.pontos = tartaruga.morto * 100;
 
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
@@ -206,7 +150,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 		}
 
-		//tartaruga.desenharTartaruga(window);
+		tartaruga.desenharTartaruga(window);
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
@@ -214,9 +158,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				player.vidas--;
 			}
 			if (vagalume.vivo == false) {
-				vagalume.morrerDefinitivamente();
-				vagalume.renascer();
 				vagalume.mortos();
+				std::cout << "mortas: " << vagalume.morto << std::endl;
 			}
 		}
 
@@ -226,11 +169,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				vagalume.morrer();
 			}
 		}
-		player.pontos = vagalume.morto * 100;
 
 		/*if (player.pontos >= 600) {
-		 vagalume.desenharVagalume(window);
-		 }*/
+			vagalume.desenharVagalume(window);
+		}*/
+
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
 			if (caranguejo.vivo == true) {
@@ -238,10 +181,8 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				player.vidas--;
 			}
 			if (caranguejo.vivo == false) {
-				caranguejo.morrerDefinitivamente();
-				caranguejo.renascer();
 				caranguejo.mortos();
-				std::cout << "mortos: " << caranguejo.morto << std::endl;
+				std::cout << "mortas: " << caranguejo.morto << std::endl;
 			}
 		}
 
@@ -251,19 +192,16 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
-		player.pontos = caranguejo.morto * 100;
 
 		//caranguejo.desenharCaranguejo(window);
 
-		/*
-		 if (player.pontos >= 1200) {
-		 }
-		 */
-		/*if (player.vidas >= 5) {
-		 Background backgruound;
-		 backgruound.BackgroundMenu();
-		 backgruound.desenharBackground(window);
-		 }*/
+		/*if (player.pontos >= 1200) {
+			player.pontos = caranguejo.morto * 100;
+		}*/
+
+		if (player.vidas <= 0) {
+			window.clear(sf::Color::Cyan);
+		}
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }
