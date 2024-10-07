@@ -10,6 +10,7 @@
 #include "Inimigos.h"			//Inclui o arquivo que guarda os atributos e métodos dos inimigos
 #include "Plataformas.h"		//Inclui o arquivo que guarda os atributos e métodos das plataformas
 #include "Colisoes.h"
+#include "GameAudio.h"
 // Função para carregar o mapa de colisão a partir de um arquivo CSV
 std::vector<std::vector<int>> loadCollisionsFromCSV(
 		const std::string &filename) {
@@ -70,6 +71,10 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	Vagalume vagalume;
 	Caranguejo caranguejo;
 	sf::Clock clock;  // Relógio para medir o tempo delta
+	GameAudio gameAudio;
+	if (!gameAudio.loadMusic()) {
+		throw std::runtime_error("Erro ao carregar a música do jogo");
+	}
 
 // Loop principal do jogo
 	while (window.isOpen()) {
@@ -211,6 +216,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			window.close();
 		}
 	}
+	gameAudio.stopMusic();
 }
 
 #endif /* RUNGAME_H_ */

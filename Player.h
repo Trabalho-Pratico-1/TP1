@@ -100,7 +100,7 @@ public:
 					|| collisionMap[cellYTop][cellXRight] != -1) {
 				sprite.setPosition(posicao.x, (cellYTop + 1) * cellHeight); // Ajusta a posição do jogador para o teto
 				velocity.y = 0; // Reseta a velocidade vertical
-				isJumping = false; // Permite que o jogador pule novamente
+				isJumping = true; // Permite que o jogador pule novamente
 			}
 		}
 

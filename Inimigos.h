@@ -203,7 +203,7 @@ public:
 	}
 	void pular() {
 		if (onGround == true and posicao.x < 720) {
-			deslocamento.y = -3.0f;
+			deslocamento.y = -6.0f;
 			onGround = false;
 		}
 	}
