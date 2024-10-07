@@ -86,9 +86,13 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		vagalume.pular();
-		vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
-		caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		if (player.pontos >= 600) {
+			vagalume.pular();
+			vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		}
+		if (player.pontos >= 1200) {
+			caranguejo.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		}
 
 		window.clear(); // Limpa a janela
 
@@ -169,10 +173,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				vagalume.morrer();
 			}
 		}
-
-		/*if (player.pontos >= 600) {
+		if (player.pontos >= 600) {
 			vagalume.desenharVagalume(window);
-		}*/
+		}
 
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
@@ -192,8 +195,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
-
-		//caranguejo.desenharCaranguejo(window);
+		if (player.pontos >= 1200) {
+			caranguejo.desenharCaranguejo(window);
+		}
 
 		/*if (player.pontos >= 1200) {
 			player.pontos = caranguejo.morto * 100;

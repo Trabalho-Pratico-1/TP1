@@ -128,13 +128,15 @@ public:
 	void update(float deltaTime,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
+		deltaTime = clock.restart().asSeconds(); // Atualiza deltaTime usando o clock do inimigo
+
 		if (vivo == false) {
 			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 				renascer();
-				clock.restart();
-			}
+		        clock.restart();
+		    }
 		} else {
-			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+		    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
 		}
 
 	}
@@ -173,14 +175,16 @@ public:
 	void update(float deltaTime,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
-		if (vivo == false) {
-			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
-				renascer();
-				clock.restart();
-			}
-		} else {
-			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
-		}
+		deltaTime = clock.restart().asSeconds(); // Atualiza deltaTime usando o clock do inimigo
+
+				if (vivo == false) {
+					if (clock.getElapsedTime() > sf::seconds(10.0f)) {
+						renascer();
+				        clock.restart();
+				    }
+				} else {
+				    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+				}
 
 	}
 };
@@ -223,14 +227,16 @@ public:
 	void update(float deltaTime,
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
-		if (vivo == false) {
-			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
-				renascer();
-				clock.restart();
-			}
-		} else {
-			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
-		}
+		deltaTime = clock.restart().asSeconds(); // Atualiza deltaTime usando o clock do inimigo
+
+				if (vivo == false) {
+					if (clock.getElapsedTime() > sf::seconds(10.0f)) {
+						renascer();
+				        clock.restart();
+				    }
+				} else {
+				    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+				}
 
 	}
 
