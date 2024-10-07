@@ -14,6 +14,7 @@ protected:
 public:
 	bool onGround;
 	bool vivo;
+	int morto = 0;
 
 	Inimigos() :
 			deslocamento(0.0f, 0.0f), posicaoInimigos(0.0f, 0.0f), onGround(
@@ -34,6 +35,12 @@ public:
 	void renascer() {
 		speed = 60.0f;
 		vivo = true;
+	}
+
+	void mortos(){
+		if(morrerDefinitivamente() == true){
+			morto++;
+		}
 	}
 
 	bool morrerDefinitivamente() {
@@ -163,7 +170,7 @@ public:
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
 		if (vivo == false) {
-			if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 				renascer();
 				clock.restart();
 			}
@@ -200,7 +207,7 @@ public:
 		imagemInimigos.setTextureRect(sf::IntRect(154, 507, 18, 16));
 	}
 	void renascer() {
-		if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+		if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 			Inimigos::renascer();
 			clock.restart();
 		}
@@ -211,7 +218,7 @@ public:
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
 		if (vivo == false) {
-			if (clock.getElapsedTime() > sf::seconds(5.0f)) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 				renascer();
 				clock.restart();
 			}

@@ -9,6 +9,7 @@
 #include "Player.h"				//Inclui o arquivo que guarda os atributos e métodos do jogador
 #include "Inimigos.h"			//Inclui o arquivo que guarda os atributos e métodos dos inimigos
 #include "Plataformas.h"		//Inclui o arquivo que guarda os atributos e métodos das plataformas
+#include "Background.h"
 // Função para carregar o mapa de colisão a partir de um arquivo CSV
 std::vector<std::vector<int>> loadCollisionsFromCSV(
 		const std::string &filename) {
@@ -171,9 +172,19 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			if (tartaruga.vivo == false) {
 				tartaruga.morrerDefinitivamente();
 				tartaruga.renascer();
-				player.pontos = player.pontos + 100;
+				tartaruga.mortos();
+				std::cout << "mortas: " << tartaruga.morto << std::endl;
 			}
 
+		}
+
+		player.pontos = tartaruga.morto * 100;
+
+		if (tartaruga.vivo == false) {
+			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
+					collisionMap, cellWidth, cellHeight) == true) {
+				tartaruga.renascer();
+			}
 		}
 
 		if (tartaruga.vivo == true) {
@@ -182,6 +193,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				tartaruga.morrer();
 			}
 		}
+
 		tartaruga.desenharTartaruga(window);
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
@@ -190,8 +202,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				player.vidas--;
 			}
 			if (vagalume.vivo == false) {
-				player.pontos = player.pontos + 100;
 				vagalume.morrerDefinitivamente();
+				vagalume.mortos();
+				std::cout << "mortas: " << vagalume.morto << std::endl;
 				vagalume.renascer();
 			}
 		}
@@ -202,10 +215,11 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				vagalume.morrer();
 			}
 		}
+		//player.pontos = vagalume.morto * 100;
 
 		/*if (player.pontos >= 600) {
-		 vagalume.desenharVagalume(window);
 		 }*/
+		//vagalume.desenharVagalume(window);
 
 //Analisa a colisão entre caranguejo e o player
 		if (colisaoInimigoCaranguejoPlayer(player, caranguejo) == true) {
@@ -215,8 +229,9 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (caranguejo.vivo == false) {
 				caranguejo.morrerDefinitivamente();
-				player.pontos = player.pontos + 100;
 				caranguejo.renascer();
+				caranguejo.mortos();
+				std::cout << "mortas: " << caranguejo.morto << std::endl;
 			}
 		}
 
@@ -226,14 +241,19 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 				caranguejo.morrer();
 			}
 		}
+		//player.pontos = caranguejo.morto * 100;
+
+		 //caranguejo.desenharCaranguejo(window);
+
 		/*
 		 if (player.pontos >= 1200) {
-		 caranguejo.desenharCaranguejo(window);
 		 }
 		 */
-		if (player.vidas == 0) {
-			window.clear(sf::Color::Blue);
-		}
+		/*if (player.vidas >= 5) {
+		 Background backgruound;
+		 backgruound.BackgroundMenu();
+		 backgruound.desenharBackground(window);
+		 }*/
 		window.display(); // Exibe o conteúdo renderizado na janela
 	}
 }
