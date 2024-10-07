@@ -140,6 +140,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (tartaruga.vivo == false) {
 				tartaruga.mortos();
+				tartaruga.renascer();
 				std::cout << "mortas: " << tartaruga.morto << std::endl;
 			}
 
@@ -163,6 +164,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (vagalume.vivo == false) {
 				vagalume.mortos();
+				vagalume.renascer();
 				std::cout << "mortas: " << vagalume.morto << std::endl;
 			}
 		}
@@ -185,6 +187,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 			if (caranguejo.vivo == false) {
 				caranguejo.mortos();
+				caranguejo.renascer();
 				std::cout << "mortas: " << caranguejo.morto << std::endl;
 			}
 		}
