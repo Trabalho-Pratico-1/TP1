@@ -38,7 +38,7 @@ std::vector<std::vector<int>> loadCollisionsFromCSV(
 
 // Função principal para executar o jogo
 void runGame(const std::string &csvFile, const std::string &mapImageFile) {
-	sf::RenderWindow window(sf::VideoMode(800, 600), "Jogo com Colisões"); // Cria a janela do jogo
+	sf::RenderWindow window(sf::VideoMode(800, 600), "Mario Bros."); // Cria a janela do jogo
 	window.setFramerateLimit(60); // Limita os FPS para evitar sobrecarga
 
 // Carregar o mapa de colisão a partir do CSV
@@ -73,7 +73,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 	sf::Clock clock;  // Relógio para medir o tempo delta
 	GameAudio gameAudio;
 	if (!gameAudio.loadMusic()) {
-		std::cout<<("Erro ao carregar a música do jogo")<<std::endl;
+		std::cout << ("Erro ao carregar a música do jogo") << std::endl;
 	}
 
 // Loop principal do jogo
@@ -150,9 +150,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			}
 
 		}
-
-		//player.pontos = tartaruga.morto * 100;
-
 		if (tartaruga.vivo == true) {
 			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga,
 					collisionMap, cellWidth, cellHeight) == true) {
@@ -170,7 +167,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			if (vagalume.vivo == false) {
 				vagalume.mortos();
 				vagalume.renascer();
-				std::cout << "mortas: " << vagalume.morto << std::endl;
 			}
 		}
 
@@ -193,7 +189,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			if (caranguejo.vivo == false) {
 				caranguejo.mortos();
 				caranguejo.renascer();
-				std::cout << "mortas: " << caranguejo.morto << std::endl;
 			}
 		}
 
@@ -207,14 +202,22 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			caranguejo.desenharCaranguejo(window);
 		}
 
-		/*if (player.pontos >= 1200) {
-			player.pontos = caranguejo.morto * 100;
-		}*/
+		if (player.vidas < 0) {
+			window.clear(sf::Color::Blue);
+			string textoGameOver = "Game Over";
+			sf::Text gameOver;
+			gameOver.setFont(fonte);
+			gameOver.setCharacterSize(60);
+			gameOver.setString(textoGameOver);
+			gameOver.setPosition(120, 200);
+			pontuacao.setCharacterSize(30);
+			window.draw(pontuacao);
+			window.draw(gameOver);
+			gameAudio.stopMusic();
+		}
 
 		window.display(); // Exibe o conteúdo renderizado na janela
-		if (player.vidas < 0) {
-			window.close();
-		}
+
 	}
 	gameAudio.stopMusic();
 }

@@ -6,7 +6,6 @@
 #include "Background.h"
 #include "Inimigos.h"
 #include "runGame.h"
-#include "GameOver.h"
 #include <iostream>
 
 enum class Fase {
