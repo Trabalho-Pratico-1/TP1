@@ -7,6 +7,8 @@ class Inimigos: public GameObject {
 protected:
 	sf::Texture textureInimigos;
 	sf::Sprite imagemInimigos;
+	sf::Texture textureInimigosInvertido;
+	sf::Sprite imagemInimigosInvertido;
 	sf::Vector2f posicaoInimigos;
 	sf::Vector2f deslocamento;
 	float gravity;
@@ -27,6 +29,12 @@ public:
 		textureInimigos.loadFromFile("sprites.png");
 		imagemInimigos.setTexture(textureInimigos);
 	}
+
+	void carregarTextureInvertido() {
+		textureInimigosInvertido.loadFromFile("sprites2.png");
+		imagemInimigosInvertido.setTexture(textureInimigosInvertido);
+	}
+
 	void morrer() {
 		speed = 0.0f;
 		vivo = false;
@@ -132,14 +140,109 @@ public:
 		if (vivo == false) {
 			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
 				renascer();
-		    }
+			}
 		} else {
-		    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
 		}
 
 	}
-}
-;
+};
+
+class TartarugaEsquerda: public Tartaruga {
+private:
+	sf::Clock clock;
+	sf::Time time;
+public:
+
+	sf::Vector2f posicaoTartaruga;
+
+	TartarugaEsquerda() :
+			posicaoTartaruga(770.0f, 0.0f) {
+		Inimigos();
+		imagemInimigosInvertido.setPosition(posicaoTartaruga);
+		imagemInimigosInvertido.setTextureRect(sf::IntRect(340, 333, 16, 16));
+		imagemInimigosInvertido.scale(2, 2);
+		speed = -50.f;
+	}
+
+	void desenharTartaruga(sf::RenderWindow &window) {
+		//moverTartaruga();
+		carregarTextureInvertido();
+		window.draw(imagemInimigosInvertido);
+	}
+
+	void morrer() {
+		Inimigos::morrer();
+		clock.restart();
+		imagemInimigosInvertido.setTextureRect(sf::IntRect(167, 336, 16, 16));
+	}
+	void renascer() {
+		Inimigos::renascer();
+		speed = -speed;
+		imagemInimigosInvertido.setTextureRect(sf::IntRect(340, 333, 16, 16));
+	}
+
+	void update(float deltaTime,
+			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
+			float cellHeight) override {
+		deslocamento.x = 0.0f; // Inicializa a velocidade horizontal
+		// Atualiza a velocidade horizontal com base no tempo
+		deslocamento.x = speed * deltaTime;
+		// Aplica a gravidade
+		deslocamento.y += gravity;
+		// Move a forma do inimigo com base na velocidade
+		imagemInimigosInvertido.move(deslocamento);
+
+		posicao = imagemInimigosInvertido.getPosition(); // Obtém a posição atual do jogador
+		globalBounds = imagemInimigosInvertido.getGlobalBounds();
+		width = globalBounds.width;        // Obtém a largura dos inimigos
+		height = globalBounds.height;        // Obtém a altura dos inimigos
+
+		// Calcula as células da matriz de colisão que os inimigos ocupam
+		int cellXLeft = static_cast<int>(posicao.x / cellWidth);
+		int cellXRight = static_cast<int>((posicao.x + width) / cellWidth);
+		int cellYBottom = static_cast<int>((posicao.y + height) / cellHeight);
+
+		// Verifica colisões na parte inferior do inimigo
+		if (collisionMap[cellYBottom][cellXLeft] != -1
+				|| collisionMap[cellYBottom][cellXRight] != -1) {
+			imagemInimigosInvertido.setPosition(posicao.x,
+					cellYBottom * cellHeight - height); // Ajusta a posição do inimigo para o chão
+			deslocamento.y = 0; // Reseta a velocidade vertical
+			onGround = true;
+		}
+		// Transporte pelas bordas da janela
+		if (posicao.x < 0) {
+			imagemInimigosInvertido.setPosition(770.f, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
+//			std::cout << "Saiu da tela";
+		} else if (posicao.x > 800) {
+			imagemInimigosInvertido.setPosition(0, posicao.y); // Teletransporta para a borda esquerda se sair pela direita
+		}
+
+		if (posicao.y < 0) {
+			imagemInimigosInvertido.setPosition(posicao.x,
+					windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
+		} else if (posicao.y > 400 and posicao.x > 800) {
+			imagemInimigosInvertido.setPosition(posicao.x, 2.0f); // Teletransporta para a borda superior se sair pela inferior
+		}
+
+		if (vivo == false) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
+				renascer();
+			}
+		}
+//			else {F
+//			    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+//			}
+
+	}
+
+	bool morrerDefinitivamente() {
+		imagemInimigosInvertido.setPosition(790.0f, 0.0f);
+		return true;
+	}
+
+};
 
 class Caranguejo: public Inimigos {
 private:
@@ -174,14 +277,14 @@ public:
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
 
-				if (vivo == false) {
-					if (clock.getElapsedTime() > sf::seconds(10.0f)) {
-						renascer();
-				        clock.restart();
-				    }
-				} else {
-				    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
-				}
+		if (vivo == false) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
+				renascer();
+				clock.restart();
+			}
+		} else {
+			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+		}
 
 	}
 };
@@ -225,14 +328,14 @@ public:
 			const std::vector<std::vector<int>> &collisionMap, float cellWidth,
 			float cellHeight) override {
 
-				if (vivo == false) {
-					if (clock.getElapsedTime() > sf::seconds(10.0f)) {
-						renascer();
-				        clock.restart();
-				    }
-				} else {
-				    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
-				}
+		if (vivo == false) {
+			if (clock.getElapsedTime() > sf::seconds(10.0f)) {
+				renascer();
+				clock.restart();
+			}
+		} else {
+			Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
+		}
 
 	}
 

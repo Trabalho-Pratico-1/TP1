@@ -68,6 +68,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 
 	Fogo fogo;
 	Tartaruga tartaruga; //Cria o inimigo tartaruga
+	TartarugaEsquerda tartaruga2;
 	Vagalume vagalume;
 	Caranguejo caranguejo;
 	sf::Clock clock;  // Relógio para medir o tempo delta
@@ -91,6 +92,7 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		player.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		fogo.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		tartaruga.update(deltaTime, collisionMap, cellWidth, cellHeight);
+		tartaruga2.update(deltaTime, collisionMap, cellWidth, cellHeight);
 		if (player.pontos >= 600) {
 			vagalume.pular();
 			vagalume.update(deltaTime, collisionMap, cellWidth, cellHeight);
@@ -158,6 +160,29 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 		}
 
 		tartaruga.desenharTartaruga(window);
+
+		if (colisaoInimigoTartarugaPlayer(player, tartaruga2) == true) {
+			if (tartaruga2.vivo == true) {
+				player.getSprite().setPosition(0.0f, 480.0f);
+				player.vidas--;
+
+			}
+			if (tartaruga2.vivo == false) {
+				tartaruga2.mortos();
+				tartaruga2.renascer();
+			}
+
+		}
+
+
+		if (tartaruga2.vivo == true) {
+			if (plataformas.colisaoPlayerPlataformaTartaruga(player, tartaruga2,
+					collisionMap, cellWidth, cellHeight) == true) {
+				tartaruga2.morrer();
+			}
+		}
+
+		tartaruga2.desenharTartaruga(window);
 //Analisa a colisão entre vagalume e o player
 		if (colisaoInimigoVagalumePlayer(player, vagalume) == true) {
 			if (vagalume.vivo == true) {
