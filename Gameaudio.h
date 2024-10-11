@@ -17,7 +17,8 @@ public:
             return false;
         }
         backgroundMusic.setLoop(true);  // Configura para tocar em loop
-        backgroundMusic.play();         // Inicia a reprodução da música
+        backgroundMusic.play();// Inicia a reprodução da música
+
         return true;
     }
 
