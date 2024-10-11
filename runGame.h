@@ -148,7 +148,6 @@ void runGame(const std::string &csvFile, const std::string &mapImageFile) {
 			if (tartaruga.vivo == false) {
 				tartaruga.mortos();
 				tartaruga.renascer();
-				std::cout << "mortas: " << tartaruga.morto << std::endl;
 			}
 
 		}

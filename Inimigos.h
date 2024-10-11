@@ -214,7 +214,6 @@ public:
 		// Transporte pelas bordas da janela
 		if (posicao.x < 0) {
 			imagemInimigosInvertido.setPosition(770.f, posicao.y); // Teletransporta para a borda direita se sair pela esquerda
-//			std::cout << "Saiu da tela";
 		} else if (posicao.x > 800) {
 			imagemInimigosInvertido.setPosition(0, posicao.y); // Teletransporta para a borda esquerda se sair pela direita
 		}
@@ -222,7 +221,7 @@ public:
 		if (posicao.y < 0) {
 			imagemInimigosInvertido.setPosition(posicao.x,
 					windowSize.y - height); // Teletransporta para a borda inferior se sair pela superior
-		} else if (posicao.y > 400 and posicao.x > 800) {
+		} else if (posicao.y > 400 and posicao.x < 0) {
 			imagemInimigosInvertido.setPosition(posicao.x, 2.0f); // Teletransporta para a borda superior se sair pela inferior
 		}
 
@@ -231,9 +230,6 @@ public:
 				renascer();
 			}
 		}
-//			else {F
-//			    Inimigos::update(deltaTime, collisionMap, cellWidth, cellHeight);
-//			}
 
 	}
 

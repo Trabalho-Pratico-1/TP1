@@ -67,9 +67,4 @@ bool colisaoInimigoFogoPlayer(Player player, Fogo fogo) {
 	}
 	return colisao;
 }
-
-
-
-
-
 #endif /* COLISOES_H_ */
